@@ -1,0 +1,39 @@
+# Copy and trim to the stacks the project uses. Pin exact versions.
+# Tools not in the mise registry use the backend shown (see practices/toolchain.md).
+[tools]
+node = "22"
+pnpm = "10"
+erlang = "29"
+elixir = "1.20"
+rust = { version = "stable", targets = "wasm32-unknown-unknown" }
+lefthook = "latest"
+gitleaks = "latest"
+actionlint = "latest"
+zizmor = "latest"
+shellcheck = "latest"
+hadolint = "latest"
+osv-scanner = "latest"
+spectral = "latest"
+"github:sbdchd/squawk" = "latest"
+"github:oasdiff/oasdiff" = "latest"
+"cargo:cargo-deny" = "latest"
+"cargo:cargo-machete" = "latest"
+
+[tasks.check]
+description = "Fast gate: format, lint, types, unit tests, scans (< 120 s)"
+run = [
+  "echo replace with the project's fast checks",
+]
+
+[tasks."check:full"]
+description = "Slow lanes: database tests, drills, end-to-end, endpoint journeys"
+depends = ["check"]
+run = "echo replace with the project's slow lanes"
+
+[tasks.fix]
+description = "Apply formatters and safe lint fixes"
+run = "echo replace with the project's formatters"
+
+[tasks.hooks]
+description = "Install git hooks"
+run = "lefthook install"

@@ -1,0 +1,10 @@
+{
+  "name": "tech-stack",
+  "version": "0.1.0",
+  "description": "QP's preferred stacks, tools, project layouts and architecture defaults",
+  "author": {
+    "name": "Oluwaseyi Sobande"
+  },
+  "license": "UNLICENSED",
+  "skills": "./skills/"
+}

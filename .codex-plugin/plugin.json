@@ -1,0 +1,23 @@
+{
+  "name": "tech-stack",
+  "version": "0.1.0",
+  "description": "QP's preferred stacks, tools, project layouts and architecture defaults",
+  "author": {
+    "name": "Oluwaseyi Sobande"
+  },
+  "license": "UNLICENSED",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Tech stack",
+    "shortDescription": "Preferred stacks, tools, layouts and architecture",
+    "longDescription": "Starting-point decisions for new and existing projects: frameworks, libraries, analysers, toolchain, git hooks, CI, project layout and architecture defaults per stack, plus facts learned the hard way. A project may deviate when its needs justify it and records why.",
+    "developerName": "Oluwaseyi Sobande",
+    "category": "Developer Tools",
+    "capabilities": ["Read"],
+    "defaultPrompt": [
+      "Set up a new TypeScript web app with my tech stack.",
+      "Audit this repo against my tech stack.",
+      "Which linters and hooks should this Elixir project use?"
+    ]
+  }
+}
