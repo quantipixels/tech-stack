@@ -15,12 +15,11 @@ why: `pedantic` is noisy; named lints keep the signal
 verified: 2026-10-06 · https://doc.rust-lang.org/clippy/
 
 ### cargo-deny — required (over cargo-audit)
-setting: install with mise `cargo:cargo-deny` (not in the mise registry); `deny.toml` checks advisories, licenses, bans, sources
+setting: `deny.toml` checks advisories, licenses, bans and sources (mise backend: see `practices/toolchain.md`)
 why: covers the RustSec advisories that cargo-audit checks, plus licenses
 verified: 2026-10-06 · https://embarkstudios.github.io/cargo-deny/
 
 ### cargo-machete — default
-setting: install with mise `cargo:cargo-machete`
 why: unused dependencies; heuristic, so keep an ignore list
 verified: 2026-10-06 · https://github.com/bnjbvr/cargo-machete
 

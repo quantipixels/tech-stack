@@ -57,6 +57,7 @@ why: fast; covers 59 of 61 typescript-eslint type-aware rules. Biome rejected by
 verified: 2026-10-06 · https://oxc.rs/docs/guide/usage/linter/type-aware.html
 
 ### Oxfmt through `vp fmt` — required (over Prettier, Biome)
+why: ships with Vite+ alongside Oxlint; one toolchain
 verified: 2026-10-06 · https://viteplus.dev/guide/
 
 ### @shadcn/lint — required where Tailwind design-system rules exist

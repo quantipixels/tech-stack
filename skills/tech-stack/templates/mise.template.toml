@@ -34,6 +34,10 @@ run = "echo replace with the project's slow lanes"
 description = "Apply formatters and safe lint fixes"
 run = "echo replace with the project's formatters"
 
+[tasks.deps]
+description = "Install project dependencies from lockfiles (called by lefthook after merge or checkout)"
+run = "echo replace with the project's install commands, e.g. pnpm install --frozen-lockfile"
+
 [tasks.hooks]
 description = "Install git hooks"
 run = "lefthook install"

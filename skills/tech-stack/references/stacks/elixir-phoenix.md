@@ -11,6 +11,7 @@ verified: 2026-10-06 · https://hexdocs.pm/ecto
 
 ### Oban — required for durable jobs (over GenServer queues, Quantum)
 setting: job args hold IDs only, never secrets or payloads
+why: jobs persist in PostgreSQL in the same transaction as the change; in-memory queues lose work on restart
 verified: 2026-10-06 · https://hexdocs.pm/oban
 
 ## Checks

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Keep the tech-stack skill lean: line budgets and entry shape. Exit 1 on a violation."""
-import pathlib, re, sys
+import datetime, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "skills" / "tech-stack"
 BUDGETS = {"SKILL.md": 80, "stacks": 80, "practices": 40, "layouts": 40}
@@ -29,10 +29,19 @@ for path in [ROOT / "SKILL.md", *sorted((ROOT / "references").glob("*/*.md"))]:
             errors.append(f"{rel}:{start + 1}: entry has no 'verified:' line")
             continue
         v = verified[0]
-        if not re.match(r"verified: (\d{4}-\d{2}-\d{2}|pending) · (https://|see `)", v):
-            errors.append(f"{rel}:{start + 1}: 'verified: <date|pending> · <https link | see `file`>'")
-        if "pending" in v.split("·")[0]:
+        m = re.match(r"verified: (\d{4}-\d{2}-\d{2}|pending) · (https://[\w.-]+\.\w+\S*|see `[^`]+`)", v)
+        if not m:
+            errors.append(f"{rel}:{start + 1}: 'verified: <date|pending> · <https URL | see `file`>'")
+        elif m.group(1) == "pending":
             pending += 1
+        else:
+            try:
+                datetime.date.fromisoformat(m.group(1))
+            except ValueError:
+                errors.append(f"{rel}:{start + 1}: '{m.group(1)}' is not a calendar date")
+        # A choice between alternatives must say why.
+        if re.search(r" — rejected|\(over ", heading) and not any(l.startswith("why: ") for l in body):
+            errors.append(f"{rel}:{start + 1}: a rejected or 'over' entry needs a 'why:' line")
     if re.search(r"\bproposed\b", path.read_text()):
         errors.append(f"{rel}: contains 'proposed'; settle the entry first")
 

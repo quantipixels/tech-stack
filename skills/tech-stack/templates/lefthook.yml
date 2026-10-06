@@ -23,9 +23,20 @@ pre-push:
 commit-msg:
   commands:
     conventional:
-      run: grep -Eq '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?!?: .+' {1}
+      run: |
+        grep -Eq '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?!?: .+' {1}
 
+# Refresh tools and dependencies only when a lockfile or mise.toml changed.
 post-merge:
   commands:
     deps:
-      run: mise install
+      files: git diff --name-only HEAD@{1} HEAD
+      glob: "{mise.toml,**/mix.lock,**/pnpm-lock.yaml,**/Cargo.lock}"
+      run: mise install && mise run deps
+
+post-checkout:
+  commands:
+    deps:
+      files: git diff --name-only {1} {2}
+      glob: "{mise.toml,**/mix.lock,**/pnpm-lock.yaml,**/Cargo.lock}"
+      run: mise install && mise run deps
