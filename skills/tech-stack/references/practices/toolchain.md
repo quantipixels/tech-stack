@@ -8,7 +8,7 @@ verified: 2026-10-06 · https://mise.jdx.dev
 ### mise tasks — required as the only gate entry points
 setting: `check` (fast, under 120 s), `check:full` (database, drills, end-to-end), `fix`; lefthook and CI call only these
 why: when hooks and CI run the same tasks, local and CI checks cannot drift
-verified: pending · https://mise.jdx.dev/tasks/
+verified: 2026-10-06 · https://mise.jdx.dev/tasks/
 
 ## Rules
 - A check that CI runs must exist as a mise task; no CI-only checks. Slow lanes live in `check:full` and CI runs them on demand.

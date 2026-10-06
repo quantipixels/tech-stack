@@ -7,4 +7,4 @@ Phoenix (`elixir-phoenix.md`). Toolchain and checks follow `typescript-react.md`
 ### Effect — required for TypeScript servers
 setting: model errors, dependencies and resources with Effect; validate wire input with Effect Schema or Zod generated from the contract, not both in one service
 why: preferred; typed errors and dependency injection without a framework container
-verified: pending · https://effect.website
+verified: 2026-10-06 · https://effect.website

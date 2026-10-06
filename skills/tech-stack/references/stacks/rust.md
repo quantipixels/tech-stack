@@ -3,11 +3,11 @@
 ### Toolchain pinned in `mise.toml` — required
 setting: `rust = "<version>"`; add each target the crate builds (for example `wasm32-unknown-unknown`)
 why: an unpinned toolchain lets local and CI builds differ
-verified: pending · https://mise.jdx.dev/lang/rust.html
+verified: 2026-10-06 · https://mise.jdx.dev/lang/rust.html
 
 ### rustfmt — required
 setting: `cargo fmt --check`
-verified: pending · https://github.com/rust-lang/rustfmt
+verified: 2026-10-06 · https://github.com/rust-lang/rustfmt
 
 ### clippy — required, named lints (over blanket `pedantic`)
 setting: `cargo clippy --all-targets --all-features -- -D warnings -W clippy::unwrap_used -W clippy::expect_used`; run once per target

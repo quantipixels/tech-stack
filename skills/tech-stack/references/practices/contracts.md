@@ -2,7 +2,7 @@
 
 ### OpenAPI and AsyncAPI as the source of truth — required
 setting: contracts live in `contracts/` with their own wire versions, separate from the app version
-verified: pending · https://spec.openapis.org · https://www.asyncapi.com/docs
+verified: 2026-10-06 · https://spec.openapis.org · https://www.asyncapi.com/docs
 
 ### Spectral — required (over Redocly)
 setting: one ruleset for OpenAPI and AsyncAPI; `--fail-severity error`

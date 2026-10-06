@@ -3,15 +3,15 @@
 ## Frameworks and libraries
 
 ### Phoenix — default (API and Channels; LiveView only when the UI is server-rendered)
-verified: pending · https://www.phoenixframework.org
+verified: 2026-10-06 · https://www.phoenixframework.org
 
 ### Ecto + PostgreSQL — required
 why: PostgreSQL is the durable authority; see `practices/data.md`
-verified: pending · https://hexdocs.pm/ecto
+verified: 2026-10-06 · https://hexdocs.pm/ecto
 
 ### Oban — required for durable jobs (over GenServer queues, Quantum)
 setting: job args hold IDs only, never secrets or payloads
-verified: pending · https://hexdocs.pm/oban
+verified: 2026-10-06 · https://hexdocs.pm/oban
 
 ## Checks
 
@@ -27,7 +27,7 @@ verified: 2026-10-06 · https://hexdocs.pm/credo
 ### Custom Credo check: catch-all must log — required
 setting: fail on `rescue`/`catch` without a `Logger` or `:telemetry` call in the clause
 why: fail-closed catch-alls hid every crash in MyCircle; no standard tool checks this
-verified: pending · https://hexdocs.pm/credo/adding_checks.html
+verified: 2026-10-06 · https://hexdocs.pm/credo/adding_checks.html
 
 ### Styler — default
 setting: formatter plugin; turn off the Credo checks it duplicates
@@ -43,7 +43,7 @@ why: compile-time enforcement of the domain/web split and cross-context reaches
 verified: 2026-10-06 · https://hexdocs.pm/boundary
 
 ### `mix hex.audit` and `mix deps.unlock --check-unused` — required
-verified: pending · https://hexdocs.pm/hex/Mix.Tasks.Hex.Audit.html
+verified: 2026-10-06 · https://hexdocs.pm/hex/Mix.Tasks.Hex.Audit.html
 
 ### Dialyzer (dialyxir) — optional, CI only
 why: spec errors beyond the compiler; first PLT build is slow; OTP 29 support unconfirmed

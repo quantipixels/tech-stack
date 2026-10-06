@@ -2,7 +2,7 @@
 
 ### PostgreSQL — required as the durable authority (over document stores, Redis as a store)
 why: transactions, constraints and row locks carry the invariants; caches and PubSub are never the source of truth
-verified: pending · https://www.postgresql.org/docs/
+verified: 2026-10-06 · https://www.postgresql.org/docs/
 
 ### squawk — required for migrations
 setting: lint the SQL each migration produces; for Ecto, capture it with `mix ecto.migrate --log-migrations-sql` on a throwaway database

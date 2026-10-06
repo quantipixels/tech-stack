@@ -10,44 +10,44 @@ verified: 2026-10-06 · https://viteplus.dev/guide/
 ### TanStack Router, Query, Form, Table — default
 setting: file-based routes; server state only in Query
 why: preferred; typed end to end
-verified: pending · https://tanstack.com
+verified: 2026-10-06 · https://tanstack.com
 
 ### Zustand — default (for client state only)
 why: preferred; server state belongs to TanStack Query, not a store
-verified: pending · https://github.com/pmndrs/zustand
+verified: 2026-10-06 · https://github.com/pmndrs/zustand
 
 ### Zod — required at every trust boundary
 setting: parse API responses, env, URL params and storage; generate schemas from contracts when a contract exists
 why: types do not exist at runtime; hand-written decoders drift from contracts
-verified: pending · https://zod.dev
+verified: 2026-10-06 · https://zod.dev
 
 ### shadcn/ui on Base UI — default UI
 setting: shadcn components with the Base UI primitives; generated components stay in `src/components/ui`
 why: preferred; components are owned source, not a dependency
-verified: pending · https://ui.shadcn.com · https://base-ui.com
+verified: 2026-10-06 · https://ui.shadcn.com · https://base-ui.com
 
 ### Tailwind CSS v4 — default styling
 setting: design tokens in the theme; no raw colors in components (enforced by @shadcn/lint)
 why: preferred; @shadcn/lint needs Tailwind v4
-verified: pending · https://tailwindcss.com
+verified: 2026-10-06 · https://tailwindcss.com
 
 ### React Compiler — default
-setting: enable in the Vite React plugin; do not hand-write `useMemo`/`useCallback` for render performance
+setting: enable the React Compiler Babel plugin in the Vite React plugin; do not hand-write `useMemo`/`useCallback` for render performance
 why: automatic memoization; removes a class of manual mistakes
-verified: pending · https://react.dev/learn/react-compiler
+verified: 2026-10-06 · https://react.dev/learn/react-compiler
 
 ### Sonner — default for toasts
 setting: through the shadcn `sonner` component
-verified: pending · https://sonner.emilkowal.ski
+verified: 2026-10-06 · https://sonner.emilkowal.ski
 
 ### Playwright — default for end-to-end tests
 setting: runs in `check:full`, not in the fast gate
-verified: pending · https://playwright.dev
+verified: 2026-10-06 · https://playwright.dev
 
 ### vite-plugin-static-copy — optional
 setting: copy static assets that Vite does not import (for example generated WASM or vendor files) into the build
 why: watch list; useful when a build needs files outside the import graph
-verified: pending · https://github.com/sapphi-red/vite-plugin-static-copy
+verified: 2026-10-06 · https://github.com/sapphi-red/vite-plugin-static-copy
 
 ## Checks
 
@@ -66,7 +66,7 @@ verified: 2026-10-06 · https://github.com/shadcn-ui/lint
 
 ### tsc strict flags — required
 setting: `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`, `noFallthroughCasesInSwitch`, `verbatimModuleSyntax` (see `templates/tsconfig.base.json`)
-verified: pending · https://www.typescriptlang.org/tsconfig/
+verified: 2026-10-06 · https://www.typescriptlang.org/tsconfig/
 
 ### knip — required
 setting: npm dev dependency (not in the mise registry); workspace config in `knip.json`
