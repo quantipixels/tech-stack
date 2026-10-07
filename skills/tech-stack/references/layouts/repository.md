@@ -16,7 +16,7 @@ One repository per product, polyglot when needed (proven on MyCircle).
     operations/          deploy, backup, restore, observability
   mise.toml              runtimes, analysers, tasks
   lefthook.yml           git hooks that call mise tasks
-  AGENTS.md  CLAUDE.md   agent rules (`CLAUDE.md` = `@AGENTS.md`)
+  AGENTS.md  CLAUDE.md   agent rules (`CLAUDE.md` starts with `@AGENTS.md`)
   ARCHITECTURE.md        module map and boundaries
   CODEBASE_STANDARD.md   rules the tools do not enforce yet
   .nongoals              what the project deliberately does not do

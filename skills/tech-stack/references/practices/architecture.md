@@ -18,6 +18,6 @@
 - Write another module's rows through its owner function, inside the caller's transaction.
 
 ## Records every repo keeps
-`AGENTS.md` (with `CLAUDE.md` containing `@AGENTS.md`), `ARCHITECTURE.md`,
+`AGENTS.md` (with `CLAUDE.md` starting with `@AGENTS.md`, then Claude-only lines), `ARCHITECTURE.md`,
 `CODEBASE_STANDARD.md` (rules the tools do not enforce yet, with known violations),
 `.nongoals`, ADRs, `docs/plans/`, `docs/solutions/` (only for real learnings).
