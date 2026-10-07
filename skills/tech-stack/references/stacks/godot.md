@@ -3,7 +3,7 @@
 ### Godot via mise — required
 setting: `godot = "4.5.1-stable"`; checked on local macOS and `ubuntu-latest` CI in Tomiwa
 why: pin the same engine locally and in CI
-verified: 2026-10-07 · https://github.com/quantipixels/tomiwa/blob/ori/mise.toml
+verified: 2026-10-07 · https://godotengine.org/download/archive/4.5.1-stable/
 
 ### gdscript-formatter — required
 setting: `"github:GDQuest/godot-gdscript-formatter-tree-sitter" = { version = "0.18.1", exe = "gdscript-formatter" }`; format check with `--check`, lint with `lint`
@@ -13,12 +13,12 @@ verified: 2026-10-07 · https://github.com/GDQuest/GDScript-formatter
 ### Strict GDScript warnings — required
 setting: `gdscript/warnings/<rule>=2` in `[debug]`: `untyped_declaration`, `unsafe_property_access`, `unsafe_method_access`, `unsafe_cast`, `unsafe_call_argument`, `return_value_discarded`
 why: new and edited code must pass typed access and discarded-return checks; hash-locked legacy exemptions live in the gate
-verified: 2026-10-07 · https://github.com/quantipixels/tomiwa/blob/ori/_scripts/check.py
+verified: 2026-10-07 · https://docs.godotengine.org/en/4.5/classes/class_projectsettings.html#class-projectsettings-property-debug-gdscript-warnings-untyped-declaration
 
 ### Headless gate — required (over `--check-only --script`)
 setting: `--import`, then a SceneTree runner that defers script loads until autoloads initialize, a headless regression scene, and boot with `--quit-after 120`
 why: `--check-only --script` gives false autoload errors; boot alone misses script and regression failures
-verified: 2026-10-07 · https://github.com/quantipixels/tomiwa/blob/ori/_scripts/check.py
+verified: 2026-10-07 · https://docs.godotengine.org/en/4.5/tutorials/editor/command_line_tutorial.html
 
 ### Rendered visual proof — required for visual changes
 setting: capture with `--write-movie` and `--fixed-fps`; inspect the rendered frames
