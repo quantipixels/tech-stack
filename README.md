@@ -6,8 +6,8 @@ from these choices instead of re-deciding them, and deviate when a real need
 justifies it.
 
 - Skill: [`skills/tech-stack/SKILL.md`](skills/tech-stack/SKILL.md)
-- Stacks: TypeScript/React, TypeScript servers (Effect), Elixir/Phoenix, Rust, Java and Kotlin with Spring Boot
-- Practices: toolchain (mise), hooks (lefthook), CI, security, data, contracts, testing, architecture
+- Stacks: TypeScript/React, TypeScript servers (Effect), Elixir/Phoenix, Rust, Java and Kotlin with Spring Boot, Godot/GDScript
+- Practices: toolchain (mise), hooks (lefthook), CI, security, data, contracts, testing, architecture, agent definitions and routing
 - Layouts: repository, TypeScript/React app, Elixir/Phoenix, Spring
 - Templates: `mise.template.toml`, `lefthook.yml`, `tsconfig.base.json`
 
