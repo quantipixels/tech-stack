@@ -5,7 +5,7 @@ Usage: python3 audit.py <repo>
 
 Heuristic: each line is a lead to check, not a confirmed defect.
 """
-import json, os, pathlib, re, sys
+import json, os, pathlib, re, subprocess, sys
 
 repo = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
 SKIP_DIRS = {".git", "node_modules", "deps", "_build", "target", "dist", "build", ".elixir_ls", ".venv"}
@@ -43,8 +43,24 @@ for name in ["AGENTS.md", "ARCHITECTURE.md", "CODEBASE_STANDARD.md", ".nongoals"
     if not (repo / name).exists():
         gap("records", f"missing {name}", "practices/architecture.md")
 claude = repo / "CLAUDE.md"
-if not claude.is_file() or claude.read_text().strip() != "@AGENTS.md":
-    gap("records", "CLAUDE.md should contain only '@AGENTS.md'", "practices/architecture.md")
+if not claude.is_file() or claude.read_text().strip().splitlines()[:1] != ["@AGENTS.md"]:
+    gap("records", "CLAUDE.md should start with '@AGENTS.md' (then Claude-only lines)", "practices/agents.md")
+
+# Agent definitions must survive both repository and global ignore patterns.
+if subprocess.run(["git", "-C", str(repo), "rev-parse", "--is-inside-work-tree"],
+                  capture_output=True).returncode == 0:
+    paths = []
+    for host in (".claude", ".codex"):
+        folder = repo / host / "agents"
+        paths.append(f"{host}/agents/qp-audit-probe.md")
+        if folder.is_dir():
+            paths.extend(str(rel(p)) for p in folder.rglob("*") if p.is_file())
+    ignored = subprocess.run(["git", "-C", str(repo), "check-ignore", "--no-index", "--", *paths],
+                             capture_output=True, text=True)
+    for path in ignored.stdout.splitlines():
+        gap("agents", f"{path} is ignored", "layouts/repository.md")
+    if ignored.returncode not in (0, 1):
+        gap("agents", "git check-ignore failed: " + ignored.stderr.strip(), "layouts/repository.md")
 
 # Toolchain, hooks, security scans
 mise = first("mise.toml", ".mise.toml", ".config/mise.toml")

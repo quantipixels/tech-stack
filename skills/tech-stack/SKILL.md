@@ -20,6 +20,7 @@ user's explicit choice wins over both.
 | Start or restructure a project | `references/layouts/<stack>.md`, `references/practices/architecture.md`, `references/practices/toolchain.md` |
 | Choose a framework, library or dependency | `references/stacks/<stack>.md` |
 | Set up or fix checks, linters, formatters | `references/stacks/<stack>.md`, `references/practices/toolchain.md` |
+| Agent definitions and routing | `references/practices/agents.md` |
 | Git hooks | `references/practices/hooks.md` |
 | CI | `references/practices/ci.md` |
 | Security scanning, containers, secrets | `references/practices/security.md` |
@@ -28,7 +29,7 @@ user's explicit choice wins over both.
 | Tests, coverage, complexity, baselines | `references/practices/testing.md` |
 | Audit a repo against this skill | run `python3 scripts/audit.py <repo>` from this skill's folder, then read the files it names |
 
-Stacks: `typescript-react`, `typescript-server`, `elixir-phoenix`, `rust`, `java-spring`, `kotlin-spring`.
+Stacks: `typescript-react`, `typescript-server`, `elixir-phoenix`, `rust`, `java-spring`, `kotlin-spring`, `godot`.
 Layouts: `repository` (any stack, read first), `typescript-react`, `elixir-phoenix`, `spring`.
 Copy-ready configs are in `templates/`; they hold only lines that differ from tool defaults.
 
