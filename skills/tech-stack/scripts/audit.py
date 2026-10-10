@@ -39,9 +39,14 @@ def active(path):
     return "\n".join(l for l in lines if not l.lstrip().startswith(("#", "//")))
 
 # Records
-for name in ["AGENTS.md", "ARCHITECTURE.md", "CODEBASE_STANDARD.md", ".nongoals"]:
-    if not (repo / name).exists():
-        gap("records", f"missing {name}", "practices/architecture.md")
+if not (repo / "AGENTS.md").is_file():
+    gap("records", "missing AGENTS.md", "practices/architecture.md")
+readme = first("README.md", "README.markdown", "README")
+non_goals = readme and re.search(
+    r"^(?:#{1,6}[ \t]+Non-goals(?:[ \t]+#+)?[ \t]*|Non-goals[ \t]*\n[=-]+[ \t]*)$",
+    readme.read_text(errors="ignore"), re.M | re.I)
+if not (repo / ".nongoals").is_file() and not non_goals:
+    gap("records", "missing README Non-goals section (or existing .nongoals)", "practices/architecture.md")
 claude = repo / "CLAUDE.md"
 if not claude.is_file() or claude.read_text().strip().splitlines()[:1] != ["@AGENTS.md"]:
     gap("records", "CLAUDE.md should start with '@AGENTS.md' (then Claude-only lines)", "practices/agents.md")

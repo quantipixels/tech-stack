@@ -1,17 +1,15 @@
 ---
 name: tech-stack
-description: QP's preferred frameworks, libraries, dependencies, analysers, toolchain, git hooks, CI, project layout and architecture defaults per stack. Use when starting a project, adding a language/framework/dependency/linter/hook/CI step, choosing a folder layout or module structure, setting up checks, or auditing a repo's setup. Not for product or domain decisions.
+description: QP's preferred frameworks, libraries, dependencies, analysers, toolchain, git hooks, CI, code layout and architecture defaults per stack. Use when starting a project, adding a language/framework/dependency/linter/hook/CI step, choosing a folder layout or module structure, setting up checks, or auditing a repo's setup.
 ---
 
 # Tech stack
 
-These are QP's **preferred starting points**, not fixed rules. Start from
-them so no project re-decides settled questions. Deviate when a project's real
-need makes another choice better, and record why in that project's
-`CODEBASE_STANDARD.md` or an ADR.
+These are QP's **preferred starting points**. Start from them so no project re-decides settled questions.
+Deviate when a project's real need makes another choice better, and record why in that project's existing standards or decision records.
 
-Precedence: the project's `AGENTS.md` and its records win over this skill. The
-user's explicit choice wins over both.
+Precedence: the project's active instructions and records win over this skill; the user's explicit choice wins over both.
+Tech-stack owns stack, tooling, code layout and architecture choices; qp-skills owns how agents work.
 
 ## Read only what the task needs
 
@@ -47,12 +45,9 @@ verified: <YYYY-MM-DD> · <official doc link>      (pending = not yet checked)
 - **optional**: use it when the project has the need named in `why`.
 - **rejected**: do not propose it again unless the reason in `why` no longer holds.
 
-Official docs explain what a tool does and how to install it; this skill links
-them and does not repeat them.
+Official docs are linked from each entry.
 
 ## When a choice changes
 
-Change the entry in the skill repo, not in one project's copy. Replace a reversed
-decision; keep a one-line `rejected` entry only if people are likely to propose
-it again. Every six months, check each entry against the inclusion test in the
-repo's `AGENTS.md`.
+Project deviations stay in that project's records.
+Changes to shared defaults go to tech-stack's maintainers as a user-approved issue or PR; stack and tooling lessons from qp-skills' `ironu` arrive as suggestions.
