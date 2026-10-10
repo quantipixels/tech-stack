@@ -17,6 +17,7 @@ Link official docs for the accepted defaults; record only the choices or differe
 - `verified:` holds the date you checked the official source, or `pending`.
 - Templates hold only lines that differ from tool defaults.
 - Replace a reversed decision; keep a one-line `rejected` entry only if people will propose the old choice again.
+- Every six months, check each entry against the inclusion test and its official source.
 
 ## Checks
 - `python3 scripts/lint.py` — line budgets and entry shape. Must pass before a commit.

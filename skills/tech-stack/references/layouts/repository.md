@@ -15,7 +15,7 @@ One repository per product, polyglot when needed (proven on MyCircle).
 ```
 ## Docs and records
 qp-skills' `alarina` owns record locations; existing locations (including `docs/adr/`, `docs/solutions/` and `.nongoals`) win and are kept.
-Its defaults: lessons in `docs/internal/solutions/<category>/`, decisions in `docs/internal/decisions/`, user guides in `docs/user/`, and non-goals in the README's "Non-goals" section.
+Its defaults: lessons in `docs/internal/solutions/<category>/`, decisions in `docs/internal/decisions/`, runbooks (deploy, backup, restore, observability) in `docs/internal/operations/`, user guides in `docs/user/`, and non-goals in the README's "Non-goals" section.
 Working specs, tickets, plans, prototypes and reports live outside the repo in `~/.qp/<owner>/<repo>/`, reached through a `.qp` symlink listed in `.git/info/exclude`.
 
 ## Rules
