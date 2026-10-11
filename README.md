@@ -11,9 +11,9 @@ Projects start from these choices instead of re-deciding them, and deviate when 
 
 ## Works with
 
-[qp-skills](https://github.com/quantipixels/skills) routes how agents work; tech-stack answers what to build with.
+[Alárinà](https://github.com/quantipixels/alarina) routes how agents work; tech-stack answers what to build with.
 agent-setup installs both.
-qp-skills' `alarina` owns project record locations, and `ilana` owns writing agent-facing text.
+Alárinà's `alarina` owns project record locations, and `ilana` owns writing agent-facing text.
 Stack and tooling lessons from `ironu` reach tech-stack's maintainers as suggestions through a user-approved issue or PR.
 
 ## Non-goals
@@ -21,7 +21,7 @@ Stack and tooling lessons from `ironu` reach tech-stack's maintainers as suggest
 - Product or domain decisions.
 - Generic advice that only restates tool defaults, tool descriptions, installation steps or flag lists; official docs own those.
 - Project-specific policy; keep it in that project's records, such as `CODEBASE_STANDARD.md`.
-- Agent workflows, record-keeping procedures or agent-text writing methods; qp-skills owns those.
+- Agent workflows, record-keeping procedures or agent-text writing methods; Alárinà owns those.
 
 ## Checks
 
