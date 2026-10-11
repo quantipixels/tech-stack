@@ -9,7 +9,7 @@ These are QP's **preferred starting points**. Start from them so no project re-d
 Deviate when a project's real need makes another choice better, and record why in that project's existing standards or decision records.
 
 Precedence: the project's active instructions and records win over this skill; the user's explicit choice wins over both.
-Tech-stack owns stack, tooling, code layout and architecture choices; qp-skills owns how agents work.
+Tech-stack owns stack, tooling, code layout and architecture choices; Alárinà owns how agents work.
 
 ## Read only what the task needs
 
@@ -50,4 +50,4 @@ Official docs are linked from each entry.
 ## When a choice changes
 
 Project deviations stay in that project's records.
-Changes to shared defaults go to tech-stack's maintainers as a user-approved issue or PR; stack and tooling lessons from qp-skills' `ironu` arrive as suggestions.
+Changes to shared defaults go to tech-stack's maintainers as a user-approved issue or PR; stack and tooling lessons from Alárinà's `ironu` arrive as suggestions.
