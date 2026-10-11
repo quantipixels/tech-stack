@@ -50,6 +50,27 @@ verified: 2026-10-06 · https://hexdocs.pm/hex/Mix.Tasks.Hex.Audit.html
 why: spec errors beyond the compiler; first PLT build is slow; OTP 29 support unconfirmed
 verified: 2026-10-06 · https://hexdocs.pm/dialyxir
 
+## Async tests
+Before converting an `async: false` module, find why it is sync: global `Application.put_env`, global process/ETS names, `:persistent_term`, telemetry handlers seeing every process, real servers or commits, DDL, `TRUNCATE`, `capture_log` equality.
+- Settings: one accessor; test builds find a NimbleOwnership owner via `$callers`; a test whose override nothing read fails. Production compiles plain `Application.get_env` (prove with a prod-compile test).
+- Named processes take `:name`; each test `start_supervised!`s its own. Hot reads use a named protected ETS table, not `GenServer.call`.
+- Telemetry handlers forward only for the test pid or its `$callers`; handler ids are unique.
+- Real HTTP/WebSocket clients: `Phoenix.Ecto.SQL.Sandbox` plug (custom `sandbox:` module that also allows the test config); every client, any language, sends the sandbox metadata as `user-agent`.
+- DDL, real commits and global locks go to `*_serial_test.exs` with `SET LOCAL lock_timeout` before DDL.
+- Proof: before and after, list test identities (module, describe, name; expand `for` over literals) and assertion counts, apply an old-to-new move map, allow zero unmapped losses. Show each mechanism red before green.
+- Cap `max_cases` and pool size locally on a shared machine; CI runs full speed.
+
+Flakes after going async: never delete or loosen an assertion, and never fix by retry or a longer timeout alone. Read fail-closed and connection logs first (`DBConnection.ConnectionError`, `deadlock_detected`); else log the failing branch locally and run the module with its neighbours over many seeds. Show red before and green after, then two full runs on different seeds.
+
+| Cause | Fix |
+| --- | --- |
+| App-wide limit (concurrent hashes) | Per-test limiter instance |
+| Shared rows locked in different orders | Per-test unique keys, or one advisory transaction lock |
+| One sandbox connection shared by test, channel, socket | Raise test-only `queue_target`/`queue_interval` |
+| Poll loop with no pause | Sleep 1 ms, bound by time |
+| Fixed window (minute, TOTP step, expiry) | Wait out the window's last seconds; anchor to the DB clock |
+| Default 100 ms `assert_receive` | `assert_receive_timeout: 1_000`; `refute_receive` stays short |
+
 ## Rejected
 - mix_audit — no release in 12 months; osv-scanner covers advisories.
 - excoveralls — no release in 12 months; use `mix test --cover`.
