@@ -57,7 +57,7 @@ Before converting an `async: false` module, find why it is sync: global `Applica
 - Telemetry handlers forward only for the test pid or its `$callers`; handler ids are unique.
 - Real HTTP/WebSocket clients: `Phoenix.Ecto.SQL.Sandbox` plug (custom `sandbox:` module that also allows the test config); every client, any language, sends the sandbox metadata as `user-agent`.
 - DDL, real commits and global locks go to `*_serial_test.exs` with `SET LOCAL lock_timeout` before DDL.
-- Proof: before and after, list test identities (module, describe, name; expand `for` over literals) and assertion counts, apply an old-to-new move map, allow zero unmapped losses. Show each mechanism red before green.
+- Proof for the conversion (migration evidence, not a permanent count gate): before and after, list test identities (module, describe, name; expand `for` over literals) and assertion counts, apply an old-to-new move map, allow zero unmapped losses. Show each mechanism red before green.
 - Cap `max_cases` and pool size locally on a shared machine; CI runs full speed.
 
 Flakes after going async: never delete or loosen an assertion, and never fix by retry or a longer timeout alone. Read fail-closed and connection logs first (`DBConnection.ConnectionError`, `deadlock_detected`); else log the failing branch locally and run the module with its neighbours over many seeds. Show red before and green after, then two full runs on different seeds.

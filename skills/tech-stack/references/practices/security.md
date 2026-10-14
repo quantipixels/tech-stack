@@ -1,7 +1,7 @@
 # Security
 
 ### gitleaks — required (over trufflehog)
-setting: full history in CI; secret scanning stays out of hooks (see `practices/hooks.md`)
+setting: changed commits on each PR, full history on a schedule; secret scanning stays out of hooks (see `practices/hooks.md`)
 why: fast; trufflehog's live verification only for periodic deep scans
 verified: 2026-10-06 · https://github.com/gitleaks/gitleaks
 

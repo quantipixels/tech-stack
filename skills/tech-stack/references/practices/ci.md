@@ -16,11 +16,13 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 - Slow lanes (database drills, end-to-end, MLS-style endpoint journeys) run when their paths change, on `ready_for_review`, or by label.
 - Every checked-in generated artifact (WASM, generated clients, generated validators) has a freshness job: regenerate, then `git diff --exit-code`.
 - Fork pull requests do not run on self-hosted runners.
+- Size matrices to real runner capacity: parallel jobs on one runner queue behind each other, so one concurrent job can finish sooner.
 - CI caches only its own runs (keyed by lockfiles and `mise.toml`); local machines never write to a shared cache, since their results are not reproducible proof.
 - No `continue-on-error` on a merge-gating step: a step that fails under it still reports success, so the check has not passed.
 
 ## Base-ref gates
-A gate a PR must not weaken (test removal, suppressions, limits, migrations, contract breaks, licences) runs from the base on `pull_request_target`.
+The exception, not a set to build. Add a custom gate only when a material failure is not reliably caught by an existing linter, analyser, test or review, a deterministic rule fits it, and it is worth its run time and upkeep. Prefer an established tool (a migration analyser, a licence scanner) over a custom script. Judge test changes by the behaviour still protected, not by test or assertion counts. Record when each gate can retire.
+A justified gate runs from the base on `pull_request_target`.
 - Read the head only as git data (`git cat-file`, `git diff`, `git ls-tree`); parse text, never eval. Never check it out or run its `mix`, `npm`, `make`, hooks or scripts, including a head copy of the gate.
 - Exceptions and baselines come only from base files, each with file, identity and reason; ignore entries without a reason or present only in the head. Tool versions come from the base lockfile.
 - `permissions: {}` with `contents: read` per job, `persist-credentials: false`, actions pinned by SHA. Fetch `refs/pull/N/head` as objects and check it equals the event's head SHA.
