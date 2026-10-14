@@ -10,7 +10,7 @@ verified: 2026-10-06 · https://github.com/evilmartians/lefthook
 | --- | --- |
 | `pre-commit` | the stack's formatter and linter on staged files; seconds |
 | `pre-push` | `mise run check`: the project's fast core (format, lint, types, unit tests), which CI also runs |
-| `commit-msg` | Conventional Commits |
+| `commit-msg` | the repo's established commit message pattern; Conventional Commits when it has none |
 | `post-merge`, `post-checkout` | install dependencies when a lockfile changed |
 
 ## Local gate

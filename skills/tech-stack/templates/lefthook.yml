@@ -11,6 +11,7 @@ pre-push:
       run: mise run check
 
 commit-msg:
+  # Match the repo's established commit pattern; this is Conventional Commits for a repo without one.
   commands:
     conventional:
       run: |
