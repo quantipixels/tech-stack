@@ -1,7 +1,7 @@
 # Security
 
 ### gitleaks — required (over trufflehog)
-setting: staged changes in pre-commit; full history in CI
+setting: full history in CI; not in hooks
 why: fast; trufflehog's live verification only for periodic deep scans
 verified: 2026-10-06 · https://github.com/gitleaks/gitleaks
 

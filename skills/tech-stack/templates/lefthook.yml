@@ -2,18 +2,8 @@
 pre-commit:
   parallel: true
   commands:
-    secrets:
-      run: mise exec -- gitleaks git --staged --no-banner
-    shell:
-      glob: "*.sh"
-      run: mise exec -- shellcheck {staged_files}
-    dockerfiles:
-      glob: "*Dockerfile*"
-      run: mise exec -- hadolint {staged_files}
-    workflows:
-      glob: ".github/workflows/*.{yml,yaml}"
-      run: mise exec -- actionlint {staged_files}
-    # Add the stack formatters/linters on {staged_files}, e.g. `vp fmt --check`, `mix format --check-formatted`.
+    # The stack formatters/linters on {staged_files}, e.g. `vp fmt --check`, `mix format --check-formatted`.
+    # Secret, dependency and workflow scans run in CI, not here.
 
 pre-push:
   commands:
