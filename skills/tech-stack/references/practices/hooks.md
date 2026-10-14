@@ -15,7 +15,19 @@ verified: 2026-10-06 · https://github.com/evilmartians/lefthook
 
 ## Local gate
 - Failures in the project's own code surface before push; CI confirms on a clean runner and does the rest.
-- Heavy or awkward jobs stay in CI or on GitHub: secret and dependency scanning, workflow and security linters, slow lanes, base-ref gates, OS matrices. Do not rebuild CI locally.
+- Place each kind of check, not each tool; do not rebuild CI locally:
+
+| Kind of check | Runs in |
+| --- | --- |
+| Formatting and linting of the project's code | pre-commit (staged files) and `check` |
+| Type or compile checks, unit tests | `check` (pre-push and CI) |
+| Tests that need a service (database, queue) | `check`, service from the shared compose file |
+| Secret scanning | CI and the host's secret scanning |
+| Dependency, licence and vulnerability scanning | CI |
+| Workflow, container and shell config linting | CI |
+| Security static analysis | CI |
+| Slow lanes (end-to-end, drills, database interleaving) | CI, by path, `ready_for_review` or label |
+| Base-ref gates, OS matrices, checks needing CI-only secrets | CI |
 - In an existing repo, hooks call its existing check entry point; adding tools from this skill is a separate change the owner asks for.
 - No fixed time budget: keep `check` fast with parallel tasks and tool caches. Never skip a run because an earlier one passed.
 - A local check that needs a service runs it from the compose file CI uses, labelled `qp.owner=<agent>/<worktree>`; the owner tears it down (`docker compose down -v`).
