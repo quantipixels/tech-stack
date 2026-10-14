@@ -80,12 +80,19 @@ for tool in ["gitleaks", "osv-scanner"]:
         gap("security", f"{tool} not configured in mise.toml or lefthook", "practices/security.md")
 
 # CI
+TASK = r"mise run ([\w:.-]+)"
+pre_push = re.search(r"^pre-push:\n((?:[ \t].*\n?|\n)*)", active(hooks), re.M)
+local = set(re.findall(TASK, pre_push.group(1) if pre_push else "")) | {"check:full"}
+standard = active(first("CODEBASE_STANDARD.md"))
 for wf in sorted((repo / ".github" / "workflows").glob("*.y*ml")):
     body = active(wf)
     if "mise run" not in body:
         gap("ci", f"{rel(wf)} does not call mise tasks", "practices/ci.md")
     if "zizmor" not in body and "zizmor" not in config:
         gap("ci", f"{rel(wf)}: zizmor not run", "practices/ci.md")
+    for task in sorted(set(re.findall(TASK, body)) - local):
+        if f"`{task}`" not in standard:
+            gap("hooks", f"{rel(wf)} runs `{task}`, which pre-push does not; run it there or list it as CI-only in CODEBASE_STANDARD.md", "practices/hooks.md")
 
 # TypeScript
 packages = []

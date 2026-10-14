@@ -20,7 +20,7 @@ spectral = "latest"
 "cargo:cargo-machete" = "latest"
 
 [tasks.check]
-description = "Fast gate: format, lint, types, unit tests, scans (< 120 s)"
+description = "Gate run by pre-push and the merge-gating CI job: format, lint, types, unit tests, scans"
 run = [
   "echo replace with the project's fast checks",
 ]
