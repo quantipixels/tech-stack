@@ -20,6 +20,12 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 - CI caches only its own runs (keyed by lockfiles and `mise.toml`); local machines never write to a shared cache, since their results are not reproducible proof.
 - No `continue-on-error` on a merge-gating step: a step that fails under it still reports success, so the check has not passed.
 
+## Runner switch by label
+- One project-named PR label moves the PR's jobs between GitHub-hosted and self-hosted runners: `runs-on: ${{ contains(github.event.pull_request.labels.*.name, '<label>') && !github.event.pull_request.head.repo.fork && fromJSON('["self-hosted","<runner-label>"]') || '<hosted-image>' }}` (or the reverse default). Pushes and other events have no PR labels and take the default.
+- Trigger on `labeled` and `unlabeled` as well, under the per-PR `concurrency` group, so switching reruns on the chosen runner and cancels the other run; job names stay the same, so required checks pass from either.
+- Pick self-hosted runners by label, never by runner name: names can repeat across scopes. An organization's runners serve only its repositories; a personal repository needs its own runner or a move into the organization.
+- Events from the workflow's `GITHUB_TOKEN` start no run or wait for manual approval, so a person or an app token applies the label. Both paths install tools through mise, so either runner gives the same result.
+
 ## Base-ref gates
 The exception, not a set to build. Add a custom gate only when a material failure is not reliably caught by an existing linter, analyser, test or review, a deterministic rule fits it, and it is worth its run time and upkeep. Prefer an established tool (a migration analyser, a licence scanner) over a custom script. Judge test changes by the behaviour still protected, not by test or assertion counts. Record when each gate can retire.
 A justified gate runs from the base on `pull_request_target`.
