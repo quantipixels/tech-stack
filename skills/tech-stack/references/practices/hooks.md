@@ -37,4 +37,5 @@ verified: 2026-10-06 · https://github.com/evilmartians/lefthook
 ## Rules
 - Hooks call mise tasks or tools pinned in `mise.toml`; never a tool from the global PATH.
 - A hook never rewrites files the user did not stage.
+- A hook that runs tests clears git's hook variables first (`env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE`, as in the template). Git sets them inside hooks; a test that makes a throwaway repo inherits them and writes to the real one instead. From a worktree, one fixture `git init` sets `core.bare=true` on the main checkout and its `git config` writes a fake identity into the shared config.
 - Skipping a hook (`--no-verify`) is the user's call only; agents do not skip hooks.

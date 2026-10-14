@@ -15,6 +15,7 @@
 - Authorization, lock-wait and race behavior need database interleaving drills; unit tests cannot prove them.
 - A security reset (epoch restore, credential generation, password change) has one drill case per session kind.
 - A test that only one machine can run is not proof; it runs in CI or in `check:full`.
+- A fixture that runs git drops every inherited `GIT_*` variable and passes its own repo path, so it cannot reach the real repo when a hook runs it (see [hooks](hooks.md#rules)).
 
 ## Engine diagnostics
 - Record an engine-exit diagnostic that cannot be fixed in an exact-match allowlist: message, resource path, count. Every other ERROR/WARNING fails.

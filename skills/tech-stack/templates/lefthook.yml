@@ -8,7 +8,8 @@ pre-commit:
 pre-push:
   commands:
     gate:
-      run: mise run check
+      # Clear git's hook variables so test fixtures cannot reach this repo.
+      run: env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE mise run check
 
 commit-msg:
   # Match the repo's established commit pattern; this is Conventional Commits for a repo without one.
