@@ -6,7 +6,7 @@ why: one install, the same versions locally and in CI
 verified: 2026-10-06 · https://mise.jdx.dev
 
 ### mise tasks — required as the only gate entry points
-setting: `check` (fast, under 120 s), `check:full` (database, drills, end-to-end), `fix`; lefthook and CI call only these
+setting: `check` (fast core, run by pre-push and CI), `check:full` (database, drills, end-to-end), `fix`; lefthook and CI call only these
 why: when hooks and CI run the same tasks, local and CI checks cannot drift
 verified: 2026-10-06 · https://mise.jdx.dev/tasks/
 
