@@ -29,6 +29,7 @@ verified: 2026-10-06 · https://github.com/evilmartians/lefthook
 | Slow lanes (end-to-end, drills, database interleaving) | CI, by path, `ready_for_review` or label |
 | Base-ref gates, OS matrices, checks needing CI-only secrets | CI |
 - In an existing repo, hooks call its existing check entry point; adding tools from this skill is a separate change the owner asks for.
+- `check` proves the code passes; proving the change works on the running product is verification, done by the agent after the build, not in hooks.
 - No fixed time budget: keep `check` fast with parallel tasks and tool caches. Never skip a run because an earlier one passed.
 - A local check that needs a service runs it from the compose file CI uses, labelled `qp.owner=<agent>/<worktree>`; the owner tears it down (`docker compose down -v`).
 - The PR description records the local gate: command, result and time.
