@@ -3,9 +3,9 @@
 ## Frameworks and libraries
 
 ### Vite+ — required (over separate Vite, Vitest, ESLint, Prettier setups)
-setting: one `vite-plus` package; `vp check` (format, lint, types), `vp test`, `vp run <task>`; tool settings live in `vite.config.ts`
+setting: one `vite-plus` package; `vp check` (format, lint, types), `vp test`, `vp run <task>`; pre-commit runs `vp staged`; settings live in `vite.config.ts`; hook manager policy in `practices/hooks.md`
 why: one toolchain for build, test, lint and format
-verified: 2026-10-06 · https://viteplus.dev/guide/
+verified: 2026-10-15 · https://viteplus.dev/guide/ · https://viteplus.dev/guide/commit-hooks
 
 ### TanStack Router, Query, Form, Table — default
 setting: file-based routes; server state only in Query

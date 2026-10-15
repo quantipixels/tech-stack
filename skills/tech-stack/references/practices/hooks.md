@@ -1,8 +1,8 @@
 # Git hooks
-### lefthook — required (over pre-commit, husky)
-setting: see `templates/lefthook.yml`; installed by a mise task or package `prepare` script, never by hand
+### lefthook — required for other stacks and mixed repos (over pre-commit, husky)
+setting: Vite+-only repos may use Vite+'s `.vite-hooks/` instead; install through `prepare` (`vp config`) or a mise task; for lefthook see `templates/lefthook.yml`
 why: one binary, parallel, no Python (pre-commit) or Node-only (husky) dependency
-verified: 2026-10-06 · https://github.com/evilmartians/lefthook
+verified: 2026-10-15 · https://github.com/evilmartians/lefthook · https://viteplus.dev/guide/commit-hooks
 
 ## Hook split
 | Hook | Runs |

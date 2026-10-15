@@ -61,6 +61,18 @@ class AuditTests(unittest.TestCase):
         self.write("vite.config.ts", "export default {};")
         self.assertIn("[typescript]", self.audit().stdout)
 
+    def test_hook_managers(self):
+        self.assertIn("[hooks]", self.audit().stdout)
+        for name in ("lefthook.yml", "lefthook.yaml", ".lefthook.yml", ".lefthook.yaml",
+                     ".vite-hooks/pre-commit"):
+            with self.subTest(name=name):
+                self.write(name, "vp staged\n")
+                self.assertNotIn("[hooks]", self.audit().stdout)
+                (self.repo / name).unlink()
+        (self.repo / ".vite-hooks").rmdir()
+        self.write(".vite-hooks", "not a directory")
+        self.assertIn("[hooks]", self.audit().stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

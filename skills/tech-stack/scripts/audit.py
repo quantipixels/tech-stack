@@ -73,8 +73,8 @@ mise = first("mise.toml", ".mise.toml", ".config/mise.toml")
 hooks = first("lefthook.yml", "lefthook.yaml", ".lefthook.yml", ".lefthook.yaml")
 if not mise:
     gap("toolchain", "no mise.toml" + (" (.tool-versions only)" if (repo / ".tool-versions").exists() else ""), "practices/toolchain.md")
-if not hooks:
-    gap("hooks", "no lefthook config", "practices/hooks.md")
+if not hooks and not (repo / ".vite-hooks").is_dir():
+    gap("hooks", "no lefthook config or .vite-hooks/ directory", "practices/hooks.md")
 config = active(mise) + "\n" + active(hooks)
 for tool in ["gitleaks", "osv-scanner"]:
     if not re.search(rf"^\s*[^=\n]*\b{re.escape(tool)}\b", config, re.M):
