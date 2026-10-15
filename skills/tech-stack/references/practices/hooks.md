@@ -19,7 +19,7 @@ verified: 2026-10-15 · https://github.com/evilmartians/lefthook · https://vite
 | --- | --- |
 | Formatting and linting of the project's code | pre-commit (staged files) and `check` |
 | Type or compile checks, unit tests | `check` (pre-push and CI) |
-| Tests that need a service (database, queue) | `check`, service from the shared compose file |
+| Tests that need a service (database, queue) | `check`; locally the machine's shared services, in CI the workflow's service containers |
 | Secret scanning | CI and the host's secret scanning |
 | Dependency, licence and vulnerability scanning | CI |
 | Workflow, container and shell config linting | CI |
@@ -29,7 +29,7 @@ verified: 2026-10-15 · https://github.com/evilmartians/lefthook · https://vite
 - In an existing repo, hooks call its existing check entry point; adding tools from this skill is a separate change the owner asks for.
 - `check` proves the code passes; proving the change works on the running product is verification, done by the agent after the build, not in hooks.
 - No fixed time budget: keep `check` fast with parallel tasks and tool caches. Never skip a run because an earlier one passed.
-- A local check that needs a service runs it from the compose file CI uses, labelled `qp.owner=<agent>/<worktree>`; the owner tears it down (`docker compose down -v`).
+- Locally, tests that need a service use the [local-services](https://github.com/quantipixels/local-services) skill when it is installed: register the app; never start a second server or run `docker compose down -v`, which deletes every project's data. CI keeps its own service containers.
 - The PR description records the local gate: command, result and time.
 
 ## Rules
