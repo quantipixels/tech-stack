@@ -15,13 +15,12 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 - With CI limited to PRs and default-branch pushes, branch pushes without a PR get no CI. Open a draft PR early or run on push to all branches.
 - Select slow lanes using Alárinà's `ipile` [CI-depth design](https://github.com/quantipixels/alarina/blob/ori/plugins/software-eng/skills/ipile/references/ci-depth.md).
 - Every checked-in generated artifact (WASM, generated clients, generated validators) has a freshness job: regenerate, then `git diff --exit-code`.
-- Fork pull requests do not run on self-hosted runners.
 - Size matrices to real runner capacity: parallel jobs on one runner queue behind each other, so one concurrent job can finish sooner.
 - CI caches only its own runs (keyed by lockfiles and `mise.toml`); local machines never write to a shared cache, since their results are not reproducible proof.
 - No `continue-on-error` on a merge-gating step: a step that fails under it still reports success, so the check has not passed.
 
 ## Runner switch by label
-- One project-named PR label moves the PR's jobs between GitHub-hosted and self-hosted runners: `runs-on: ${{ contains(github.event.pull_request.labels.*.name, '<label>') && !github.event.pull_request.head.repo.fork && fromJSON('["self-hosted","<runner-label>"]') || '<hosted-image>' }}` (or the reverse default). Pushes and other events have no PR labels and take the default.
+- Pushes use self-hosted runners; only same-repository PRs with the project's runner label may select self-hosted. Fork PRs always use GitHub-hosted runners, regardless of labels: `runs-on: ${{ (github.event_name == 'push' || (github.event.pull_request.head.repo.full_name == github.repository && contains(github.event.pull_request.labels.*.name, 'ci:ere'))) && 'self-hosted' || 'ubuntu-latest' }}`. Use the project's own runner label in place of `ci:ere`.
 - Trigger on `labeled` and `unlabeled` as well, under the per-PR `concurrency` group, so switching reruns on the chosen runner and cancels the other run; job names stay the same, so required checks pass from either.
 - Pick self-hosted runners by label, never by runner name: names can repeat across scopes. An organization's runners serve only its repositories; a personal repository needs its own runner or a move into the organization.
 - Events from the workflow's `GITHUB_TOKEN` start no run or wait for manual approval, so a person or an app token applies the label. Both paths install tools through mise, so either runner gives the same result.
