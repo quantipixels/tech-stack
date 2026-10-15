@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   version:
-    runs-on: ${{ (github.event_name == 'push' || (github.event.pull_request.head.repo.full_name == github.repository && contains(github.event.pull_request.labels.*.name, 'ci:ere'))) && 'self-hosted' || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
       contents: write
