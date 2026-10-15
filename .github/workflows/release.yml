@@ -1,0 +1,37 @@
+name: Version
+on:
+  push:
+    branches: [ori]
+permissions: {}
+concurrency:
+  group: version-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+          # Changesets pushes its version branch; credentials are removed below.
+          persist-credentials: true # zizmor: ignore[artipacked] -- needed to push the version PR
+          token: ${{ secrets.CHANGESETS_TOKEN || secrets.GITHUB_TOKEN }}
+      - uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db # v3
+      - run: mise run release:deps
+      - uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        with:
+          version: mise run release:version
+          createGithubReleases: false
+          commit: "chore: version tech-stack"
+          title: "chore: version tech-stack"
+        env:
+          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN || secrets.GITHUB_TOKEN }}
+      - name: Remove runner credentials
+        if: always()
+        run: |
+          rm -f "$HOME/.netrc"
+          git config --local --unset-all http.https://github.com/.extraheader || true

@@ -1,0 +1,15 @@
+{
+  "name": "tech-stack",
+  "version": "0.1.2",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "changeset": "changeset",
+    "version": "changeset version && python3 scripts/sync-versions.py && npm install --package-lock-only --ignore-scripts",
+    "prepare": "mise run deps"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3"
+  },
+  "packageManager": "npm@10.9.4"
+}

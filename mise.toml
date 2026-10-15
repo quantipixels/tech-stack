@@ -20,3 +20,9 @@ run = ["actionlint", "zizmor .github/workflows"]
 
 [tasks.deps]
 run = "lefthook install"
+
+[tasks."release:deps"]
+run = "npm ci --ignore-scripts"
+
+[tasks."release:version"]
+run = "npm run version"
