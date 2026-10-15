@@ -1,0 +1,23 @@
+name: Checks
+on:
+  push:
+    branches: [ori]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+permissions: {}
+concurrency:
+  group: checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    if: github.event_name == 'push' || !github.event.pull_request.draft
+    runs-on: ${{ contains(github.event.pull_request.labels.*.name, 'ci:ere') && 'self-hosted' || 'ubuntu-latest' }}
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db # v3
+      - run: mise run check:full
