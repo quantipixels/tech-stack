@@ -1,8 +1,13 @@
 # Data and PostgreSQL
 
-### PostgreSQL — required as the durable authority (over document stores, Redis as a store)
+### PostgreSQL — required as the durable authority (over document stores, Valkey as a store)
 why: transactions, constraints and row locks carry the invariants; caches and PubSub are never the source of truth
 verified: 2026-10-06 · https://www.postgresql.org/docs/
+
+### Valkey — default key-value store (over Redis)
+setting: caches, rate limits and ephemeral queues only; Redis clients and the RESP protocol work unchanged
+why: BSD-licensed fork of Redis OSS 7.2, kept compatible; never the source of truth
+verified: 2026-10-15 · https://valkey.io/topics/migration/
 
 ### squawk — required for migrations
 setting: lint the SQL each migration produces; for Ecto, capture it with `mix ecto.migrate --log-migrations-sql` on a throwaway database

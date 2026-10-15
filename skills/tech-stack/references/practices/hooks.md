@@ -12,7 +12,7 @@ verified: 2026-10-15 · https://github.com/evilmartians/lefthook · https://vite
 | `commit-msg` | the repo's established commit message pattern; Conventional Commits when it has none |
 | `post-merge`, `post-checkout` | install dependencies when a lockfile changed |
 ## Local gate
-- Failures in the project's own code surface before push; CI confirms on a clean runner and does the rest.
+- Failures in the project's own code surface before push; CI confirms on a clean runner and does the rest. When CI is unavailable (minutes blocked, runners down), run CI's own entry points locally (`mise run check:full`), never a hand-copied job list; keep path selection in one mise task both use, and record in the PR that CI did not run.
 - Place each kind of check, not each tool; do not rebuild CI locally:
 
 | Kind of check | Runs in |
