@@ -1,5 +1,4 @@
 # Git hooks
-
 ### lefthook — required (over pre-commit, husky)
 setting: see `templates/lefthook.yml`; installed by a mise task or package `prepare` script, never by hand
 why: one binary, parallel, no Python (pre-commit) or Node-only (husky) dependency

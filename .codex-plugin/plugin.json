@@ -5,7 +5,7 @@
   "author": {
     "name": "Oluwaseyi Sobande"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "skills": "./skills/",
   "interface": {
     "displayName": "Tech stack",
