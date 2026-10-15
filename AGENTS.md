@@ -24,3 +24,9 @@ Link official docs for the accepted defaults; record only the choices or differe
 - `python3 skills/tech-stack/scripts/audit.py <repo>` — gaps between a repo and this skill.
 
 Review every entry every six months against the inclusion test and its source.
+
+## Versions
+Every user-visible change carries a `.changeset/*.md` entry (`npm run changeset`).
+Use patch for fixes and wording, minor for new capabilities; breaking changes need the owner.
+Never hand-edit versions: `npm run version` generates the changelog and syncs both manifests.
+Merges to `ori` update one version PR. Its merge updates marketplace installs after hosts refresh their cached version.

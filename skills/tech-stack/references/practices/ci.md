@@ -13,28 +13,25 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 - `concurrency` cancels superseded runs. The merge-gating job reports on every `pull_request` head.
 - Filter expensive jobs by path inside an unfiltered PR workflow; add an aggregator with `if: always()` that succeeds for intentional skips and fails for failures or cancellations.
 - With CI limited to PRs and default-branch pushes, branch pushes without a PR get no CI. Open a draft PR early or run on push to all branches.
-- Slow lanes (database drills, end-to-end, MLS-style endpoint journeys) run when their paths change, on `ready_for_review`, or by label.
+- Select slow lanes using Alárinà's `ipile` [CI-depth design](https://github.com/quantipixels/alarina/blob/ori/plugins/software-eng/skills/ipile/references/ci-depth.md).
 - Every checked-in generated artifact (WASM, generated clients, generated validators) has a freshness job: regenerate, then `git diff --exit-code`.
-- Fork pull requests do not run on self-hosted runners.
 - Size matrices to real runner capacity: parallel jobs on one runner queue behind each other, so one concurrent job can finish sooner.
 - CI caches only its own runs (keyed by lockfiles and `mise.toml`); local machines never write to a shared cache, since their results are not reproducible proof.
 - No `continue-on-error` on a merge-gating step: a step that fails under it still reports success, so the check has not passed.
 
-## Runner switch by label
-- One project-named PR label moves the PR's jobs between GitHub-hosted and self-hosted runners: `runs-on: ${{ contains(github.event.pull_request.labels.*.name, '<label>') && !github.event.pull_request.head.repo.fork && fromJSON('["self-hosted","<runner-label>"]') || '<hosted-image>' }}` (or the reverse default). Pushes and other events have no PR labels and take the default.
+## Runners
+- Public repositories use GitHub-hosted runners. Label-routed self-hosted runners are for private repositories only; fork PRs must never reach self-hosted runners, regardless of labels. Check runner-group access before selecting self-hosted: QP's organization groups do not allow public repositories, so those jobs remain queued.
 - Trigger on `labeled` and `unlabeled` as well, under the per-PR `concurrency` group, so switching reruns on the chosen runner and cancels the other run; job names stay the same, so required checks pass from either.
 - Pick self-hosted runners by label, never by runner name: names can repeat across scopes. An organization's runners serve only its repositories; a personal repository needs its own runner or a move into the organization.
 - Events from the workflow's `GITHUB_TOKEN` start no run or wait for manual approval, so a person or an app token applies the label. Both paths install tools through mise, so either runner gives the same result.
 
 ## Base-ref gates
-The exception, not a set to build. Add a custom gate only when a material failure is not reliably caught by an existing linter, analyser, test or review, a deterministic rule fits it, and it is worth its run time and upkeep. Prefer an established tool (a migration analyser, a licence scanner) over a custom script. Judge test changes by the behaviour still protected, not by test or assertion counts. Record when each gate can retire.
-A justified gate runs from the base on `pull_request_target`.
+Alárinà's `idena` owns [whether to add a gate and when it retires](https://github.com/quantipixels/alarina/blob/ori/plugins/software-eng/skills/idena/SKILL.md); `ironu` hands findings to it. Build an accepted gate as follows, running from the base on `pull_request_target`.
 - Read the head only as git data (`git cat-file`, `git diff`, `git ls-tree`); parse text, never eval. Never check it out or run its `mix`, `npm`, `make`, hooks or scripts, including a head copy of the gate.
 - Exceptions and baselines come only from base files, each with file, identity and reason; ignore entries without a reason or present only in the head. Tool versions come from the base lockfile.
 - `permissions: {}` with `contents: read` per job, `persist-credentials: false`, actions pinned by SHA. Fetch `refs/pull/N/head` as objects and check it equals the event's head SHA.
 - A gate exits 0 to pass, one reserved code for not applicable, anything else (or a timeout) to fail, and prints `FINDING: <path>: <msg>` per problem.
 - Self-test each gate on a throwaway two-commit repo to prove it red: bad input fails; good passes; a reasoned base exception passes; a head-only or blank-reason exception fails; planted head code (manifest, filter attribute, a head gate) never runs (marker file stays absent).
-- One owner per rule: if a linter or hook already enforces it, link to that instead of adding a gate.
 
 ## Learned
 - GitHub Free private repos have no enforced branch protection or rulesets; the API returns 403: "Upgrade to GitHub Pro or make this repository public". CI is advisory. Use Team for an organization (Pro for a personal repo), make the repo public, or use hooks plus discipline. See [availability](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets).

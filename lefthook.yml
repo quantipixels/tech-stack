@@ -1,0 +1,10 @@
+pre-commit:
+  commands:
+    lint:
+      run: mise run lint
+pre-push:
+  commands:
+    check:
+      run: |
+        for git_var in $(env | sed -n 's/^\(GIT_[A-Za-z_]*\)=.*/\1/p'); do unset "$git_var"; done
+        mise run check

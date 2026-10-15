@@ -31,3 +31,11 @@ python3 skills/tech-stack/scripts/audit.py <repo>        # how a repo differs fr
 ```
 
 See [AGENTS.md](AGENTS.md) for reference authoring rules.
+
+## Versions and installs
+
+Run `mise install` and `npm ci` to install the pinned tools, Changesets and hooks.
+Each change carries a changeset; merges to `ori` update the version PR, whose merge generates `CHANGELOG.md` and bumps both host manifests.
+Set `CHANGESETS_TOKEN` to let the version PR trigger checks; with `GITHUB_TOKEN`, a maintainer must trigger/approve its checks as needed.
+Alárinà's marketplace lists this independent repository for both hosts; no copied skill or extra publishing step is needed.
+Host caches refresh only after the version PR merges and users update their plugins.

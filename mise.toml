@@ -1,0 +1,28 @@
+[tools]
+python = "3.13.7"
+node = "22.21.1"
+lefthook = "2.2.2"
+actionlint = "1.7.12"
+zizmor = "1.31.0"
+
+[tasks.lint]
+run = "python3 scripts/lint.py"
+
+[tasks.test]
+run = "python3 -m unittest discover -s tests -v"
+
+[tasks.check]
+depends = ["lint", "test"]
+
+[tasks."check:full"]
+depends = ["check"]
+run = ["actionlint", "zizmor .github/workflows"]
+
+[tasks.deps]
+run = "lefthook install"
+
+[tasks."release:deps"]
+run = "npm ci --ignore-scripts"
+
+[tasks."release:version"]
+run = "npm run version"
