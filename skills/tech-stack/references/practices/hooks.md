@@ -11,7 +11,6 @@ verified: 2026-10-06 · https://github.com/evilmartians/lefthook
 | `pre-push` | `mise run check`: the project's fast core (format, lint, types, unit tests), which CI also runs |
 | `commit-msg` | the repo's established commit message pattern; Conventional Commits when it has none |
 | `post-merge`, `post-checkout` | install dependencies when a lockfile changed |
-
 ## Local gate
 - Failures in the project's own code surface before push; CI confirms on a clean runner and does the rest.
 - Place each kind of check, not each tool; do not rebuild CI locally:
@@ -25,7 +24,7 @@ verified: 2026-10-06 · https://github.com/evilmartians/lefthook
 | Dependency, licence and vulnerability scanning | CI |
 | Workflow, container and shell config linting | CI |
 | Security static analysis | CI |
-| Slow lanes (end-to-end, drills, database interleaving) | CI, by path, `ready_for_review` or label |
+| Slow lanes (end-to-end, drills, database interleaving) | CI; see Alárinà's `ipile` CI-depth design linked in `ci.md` |
 | Base-ref gates, OS matrices, checks needing CI-only secrets | CI |
 - In an existing repo, hooks call its existing check entry point; adding tools from this skill is a separate change the owner asks for.
 - `check` proves the code passes; proving the change works on the running product is verification, done by the agent after the build, not in hooks.
@@ -36,5 +35,6 @@ verified: 2026-10-06 · https://github.com/evilmartians/lefthook
 ## Rules
 - Hooks call mise tasks or tools pinned in `mise.toml`; never a tool from the global PATH.
 - A hook never rewrites files the user did not stage.
-- A hook that runs tests clears git's hook variables first (`env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE`, as in the template). Git sets them inside hooks; a test that makes a throwaway repo inherits them and writes to the real one instead. From a worktree, one fixture `git init` sets `core.bare=true` on the main checkout and its `git config` writes a fake identity into the shared config.
+- Gate launchers clear inherited `GIT_*` variables before tests; fixture helpers also drop every inherited `GIT_*` variable from Git subprocess environments. Git's hook environment can redirect a disposable repository's operations into the real checkout (Alárinà #122).
+- Keep pre-push fast or add `-o ServerAliveInterval=30` to the existing SSH command, preserving its identity and proxy options: Git opens the connection before hooks run (Alárinà #122).
 - Skipping a hook (`--no-verify`) is the user's call only; agents do not skip hooks.

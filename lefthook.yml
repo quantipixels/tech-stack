@@ -5,4 +5,6 @@ pre-commit:
 pre-push:
   commands:
     check:
-      run: env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE mise run check
+      run: |
+        for git_var in $(env | sed -n 's/^\(GIT_[A-Za-z_]*\)=.*/\1/p'); do unset "$git_var"; done
+        mise run check
