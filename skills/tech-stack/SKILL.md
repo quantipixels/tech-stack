@@ -40,7 +40,7 @@ why: <one line>
 verified: <YYYY-MM-DD> · <official doc link>      (pending = not yet checked)
 ```
 
-- **required**: use it unless the project records a reason not to.
+- **required**: use it unless the project records a reason not to. Before launch, a project may run a whole-repo tool (such as knip) as advisory if it records the date it becomes blocking.
 - **default**: the first choice; replace it when the project needs something else.
 - **optional**: use it when the project has the need named in `why`.
 - **rejected**: do not propose it again unless the reason in `why` no longer holds.
