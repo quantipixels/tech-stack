@@ -40,6 +40,27 @@ class AuditTests(unittest.TestCase):
         self.assertNotIn("[records]", result.stdout)
         self.assertIn("[hooks]", result.stdout)
 
+    def test_tooling_only_package_is_not_typescript(self):
+        self.write("package.json", '{"devDependencies":{"@changesets/cli":"*"}}')
+        self.assertNotIn("[typescript]", self.audit().stdout)
+
+    def test_typescript_source_without_manifest_is_detected(self):
+        for extension in ("ts", "tsx", "mts", "cts"):
+            with self.subTest(extension=extension):
+                self.write(f"src/main.{extension}", "export const answer = 42;")
+                self.assertIn("[typescript] vite-plus not a dependency", self.audit().stdout)
+                (self.repo / f"src/main.{extension}").unlink()
+
+    def test_dependency_and_build_sources_do_not_select_typescript(self):
+        self.write("package.json", "{}")
+        for folder in ("node_modules", "dist", "build", "target"):
+            self.write(f"{folder}/index.ts", "export {};")
+        self.assertNotIn("[typescript]", self.audit().stdout)
+
+    def test_typescript_config_counts_as_source(self):
+        self.write("vite.config.ts", "export default {};")
+        self.assertIn("[typescript]", self.audit().stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

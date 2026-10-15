@@ -10,6 +10,7 @@ import json, os, pathlib, re, subprocess, sys
 repo = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
 SKIP_DIRS = {".git", "node_modules", "deps", "_build", "target", "dist", "build", ".elixir_ls", ".venv"}
 gaps = []
+git_env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
 
 def gap(area, message, read):
     gaps.append(f"[{area}] {message}  → read {read}")
@@ -53,7 +54,7 @@ if not claude.is_file() or claude.read_text().strip().splitlines()[:1] != ["@AGE
 
 # Agent definitions must survive both repository and global ignore patterns.
 if subprocess.run(["git", "-C", str(repo), "rev-parse", "--is-inside-work-tree"],
-                  capture_output=True).returncode == 0:
+                  env=git_env, capture_output=True).returncode == 0:
     paths = []
     for host in (".claude", ".codex"):
         folder = repo / host / "agents"
@@ -61,7 +62,7 @@ if subprocess.run(["git", "-C", str(repo), "rev-parse", "--is-inside-work-tree"]
         if folder.is_dir():
             paths.extend(str(rel(p)) for p in folder.rglob("*") if p.is_file())
     ignored = subprocess.run(["git", "-C", str(repo), "check-ignore", "--no-index", "--", *paths],
-                             capture_output=True, text=True)
+                             env=git_env, capture_output=True, text=True)
     for path in ignored.stdout.splitlines():
         gap("agents", f"{path} is ignored", "layouts/repository.md")
     if ignored.returncode not in (0, 1):
@@ -88,8 +89,11 @@ for wf in sorted((repo / ".github" / "workflows").glob("*.y*ml")):
         gap("ci", f"{rel(wf)}: zizmor not run", "practices/ci.md")
 
 # TypeScript
+# A package manifest may exist only to run repository tooling such as Changesets.
+# Count all TS module forms, including config files, outside dependency/build trees.
+has_typescript = next(walk(suffix=(".ts", ".tsx", ".mts", ".cts")), None) is not None
 packages = []
-for pj in walk("package.json"):
+for pj in walk("package.json") if has_typescript else ():
     try:
         data = json.loads(pj.read_text())
         if not isinstance(data, dict):
@@ -104,7 +108,7 @@ def deps_of(p):
             out |= set(p[s])
     return out
 deps = set().union(*map(deps_of, packages)) if packages else set()
-if packages:
+if has_typescript:
     if "@biomejs/biome" in deps or first("biome.json", "biome.jsonc"):
         gap("typescript", "Biome is rejected; use Oxlint/Oxfmt through Vite+", "stacks/typescript-react.md")
     for need in ["vite-plus", "knip"]:
