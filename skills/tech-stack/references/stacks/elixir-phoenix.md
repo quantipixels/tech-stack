@@ -47,7 +47,7 @@ verified: 2026-10-06 · https://hexdocs.pm/boundary
 verified: 2026-10-06 · https://hexdocs.pm/hex/Mix.Tasks.Hex.Audit.html
 
 ### Dialyzer (dialyxir) — optional, CI only
-setting: skip while the Elixir 1.20 compiler's type checker covers the app; add it for a library whose specs are a public contract; remove it when every finding sits on its ignore list
+setting: add only when the project relies on typespecs that the compiler's type inference does not check
 why: spec errors beyond the compiler; first PLT build is slow; OTP 29 support unconfirmed
 verified: 2026-10-06 · https://hexdocs.pm/dialyxir
 
