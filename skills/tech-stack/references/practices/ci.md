@@ -12,9 +12,9 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 ## Rules
 - Jobs call mise tasks only (`mise run check`, `mise run check:full`); install tools with the mise action.
 - Pin every action by commit SHA; set `permissions:` to the minimum per job; `persist-credentials: false` on checkout.
-- `concurrency` cancels superseded runs. The merge-gating job reports on every `pull_request` head.
-- Filter expensive jobs by path inside an unfiltered PR workflow; add an aggregator with `if: always()` that succeeds for intentional skips and fails for failures or cancellations.
-- With CI limited to PRs and default-branch pushes, branch pushes without a PR get no CI. Open a draft PR early or run on push to all branches.
+- For PR checks, follow [PR run efficiency](ci-pr-checks.md): cancel superseded runs and skip check jobs while the PR is a draft. The merge-gating job reports on every non-draft `pull_request` head.
+- Filter expensive jobs by path inside an unfiltered PR workflow; add an aggregator with `if: always() && github.event.pull_request.draft != true` that succeeds for intentional skips and fails for failures or cancellations.
+- With CI limited to PRs and default-branch pushes, branch pushes without a ready PR get no checks. Open a draft PR early for tracking; mark it ready when checks should begin, or run local checks while drafting.
 - Select slow lanes using Alárinà's `ipile` [CI-depth design](https://github.com/quantipixels/alarina/blob/ori/plugins/software-eng/skills/ipile/references/ci-depth.md).
 - Every checked-in generated artifact (WASM, generated clients, generated validators) has a freshness job: regenerate, then `git diff --exit-code`.
 - When output depends on the build host (Rust `wasm32` bytes differ between aarch64 and x86_64, [cargo#8140](https://github.com/rust-lang/cargo/issues/8140)), byte-compare fails. Check in a stamp holding a hash of the inputs (sources, lockfile, toolchain, build script) and of the output instead; the job fails when either hash no longer matches, and the artifact is rebuilt only when inputs change.
