@@ -47,6 +47,7 @@ verified: 2026-10-06 · https://hexdocs.pm/boundary
 verified: 2026-10-06 · https://hexdocs.pm/hex/Mix.Tasks.Hex.Audit.html
 
 ### Dialyzer (dialyxir) — optional, CI only
+setting: add only when the project relies on typespecs that the compiler's type inference does not check
 why: spec errors beyond the compiler; first PLT build is slow; OTP 29 support unconfirmed
 verified: 2026-10-06 · https://hexdocs.pm/dialyxir
 

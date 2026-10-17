@@ -41,8 +41,8 @@ setting: through the shadcn `sonner` component
 verified: 2026-10-06 · https://sonner.emilkowal.ski
 
 ### Playwright — default for end-to-end tests
-setting: runs in `check:full`, not in the fast gate
-verified: 2026-10-06 · https://playwright.dev
+setting: runs in `check:full`, not in the fast gate; record traces only on retry (`trace: 'on-first-retry'`) or in a diagnostic rerun, never on every run (`retain-on-failure` still records each test); tests that change server state get per-worker accounts via `testInfo.workerIndex`
+verified: 2026-10-17 · https://playwright.dev/docs/test-use-options · https://playwright.dev/docs/test-parallel
 
 ### vite-plugin-static-copy — optional
 setting: copy static assets that Vite does not import (for example generated WASM or vendor files) into the build
