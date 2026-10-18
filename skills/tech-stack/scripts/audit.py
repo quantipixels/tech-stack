@@ -49,8 +49,8 @@ non_goals = readme and re.search(
 if not (repo / ".nongoals").is_file() and not non_goals:
     gap("records", "missing README Non-goals section (or existing .nongoals)", "practices/architecture.md")
 claude = repo / "CLAUDE.md"
-if not claude.is_file() or claude.read_text().strip().splitlines()[:1] != ["@AGENTS.md"]:
-    gap("records", "CLAUDE.md should start with '@AGENTS.md' (then Claude-only lines)", "practices/agents.md")
+if not claude.is_symlink() or claude.resolve() != (repo / "AGENTS.md").resolve() or not claude.is_file():
+    gap("records", "CLAUDE.md should symlink to AGENTS.md; run ln -sf AGENTS.md CLAUDE.md", "practices/agents.md")
 
 # Agent definitions must survive both repository and global ignore patterns.
 if subprocess.run(["git", "-C", str(repo), "rev-parse", "--is-inside-work-tree"],

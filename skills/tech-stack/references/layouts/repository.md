@@ -11,8 +11,9 @@ One repository per product, polyglot when needed.
   scripts/               thin wrappers that mise tasks call
   mise.toml              runtimes, analysers, tasks
   lefthook.yml           git hooks that call mise tasks
-  AGENTS.md  CLAUDE.md   shared instructions; `CLAUDE.md` starts with `@AGENTS.md`
+  AGENTS.md  CLAUDE.md   agent instruction files (see below)
 ```
+Agent instruction files follow [the agent instructions default](../practices/agents.md).
 ## Docs and records
 Alárinà's `alarina` owns record locations; existing locations (including `docs/adr/`, `docs/solutions/` and `.nongoals`) win and are kept.
 Its defaults: lessons in `docs/internal/solutions/<category>/`, decisions in `docs/internal/decisions/`, runbooks (deploy, backup, restore, observability) in `docs/internal/operations/`, user guides in `docs/user/`, and non-goals in the README's "Non-goals" section.
