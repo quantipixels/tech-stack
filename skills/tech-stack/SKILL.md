@@ -8,6 +8,8 @@ description: QP's preferred frameworks, libraries, dependencies, analysers, tool
 These are QP's **preferred starting points**. Start from them so no project re-decides settled questions.
 Deviate when a project's real need makes another choice better, and record why in that project's existing standards or decision records.
 
+These entries are a floor, not the whole list. For each platform a project uses (a language, framework, host, store or CI service), also take the steps its own maintainers publish as standard, after checking their current docs. When planning, or when a choice is still open, research the options first, then present the user with a short recommendation and its alternatives instead of deciding silently.
+
 Precedence: the project's active instructions and records win over this skill; the user's explicit choice wins over both.
 Tech-stack owns stack, tooling, code layout and architecture choices; Alárinà owns how agents work.
 
