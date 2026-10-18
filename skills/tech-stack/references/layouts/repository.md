@@ -1,6 +1,6 @@
 # Repository layout (any stack)
 
-One repository per product, polyglot when needed (proven on MyCircle).
+One repository per product, polyglot when needed.
 ```
 <repo>/
   apps/<app>/            deployable applications (backend, web apps, admin)
