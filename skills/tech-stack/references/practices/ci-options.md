@@ -4,15 +4,11 @@ For splitting jobs, selecting tests, caching, sharding, a merge queue or provena
 
 - Read the current docs of the tools already in the lockfile before adding a tool or script; they often already do it. Prefer a tool's option over a hand-written selector, and record which option you checked.
 - Measure first, from `gh run view <id> --json jobs`. Keep queue time apart from job time, and claim a speed-up only from job times on the project's own runners. Measure again afterwards, once with a busy runner.
-
-### Package-level test selection on PRs — optional
-setting: `pnpm --filter "...[origin/<base>]" run test` (changed packages and their dependents); Nx `affected` or Turborepo `--affected` from the project graph
-why: skips packages a PR cannot affect, with almost no upkeep. Default-branch pushes run everything. Nx sets the base to the last green default-branch commit (`nrwl/nx-set-shas`); prefer that where the tool offers it.
-verified: 2026-10-18 · https://pnpm.io/filtering · https://nx.dev/ci/features/affected
+- To run less on a PR, see [change selection](ci-change-selection.md) (one selector, native selection, Elixir shards, graph tools); it replaces any per-package or path-filter setup.
 
 ### Vite+ task cache — optional
 setting: tasks under `run.tasks` in `vite.config.ts` run by `vp run`; cache `node_modules/.vite/task-cache` after install, key `vite-task-<os>-<arch>-<run_id>-<attempt>`, restore prefix `vite-task-<os>-<arch>-`
-why: unchanged tasks replay instead of rerunning. `vp run --filter` selects by name, directory or glob but has no "changed since" filter; pair it with pnpm's. Measure that moving the cache saves time.
+why: unchanged tasks replay instead of rerunning. `vp run --filter` selects by name, directory or glob but has no "changed since" filter; pair it with pnpm's `--filter "...[<base>]"` (see change selection). Measure that moving the cache saves time.
 verified: 2026-10-18 · https://viteplus.dev/guide/run · https://viteplus.dev/guide/github-actions-cache
 
 ### File-level test map — optional, last resort
@@ -21,7 +17,7 @@ verified: 2026-10-18 · https://nx.dev/ci/features/affected
 
 ### Parallel jobs and sharding — optional
 setting: separate suite jobs, or `vitest --shard=<i>/<n>` in a matrix
-why: shorter PR feedback when suites exceed about 10 minutes and spare runners exist. Pair heavy jobs to runner count and memory; each job repeats checkout and install.
+why: shorter PR feedback when suites exceed about 10 minutes and spare runners exist. Pair heavy jobs to runner count and memory; each job repeats checkout and install. Elixir and single-runner notes: [change selection](ci-change-selection.md).
 verified: pending · https://vitest.dev/guide/improving-performance
 
 ### Merge queue — optional, plan-dependent
