@@ -34,11 +34,19 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("missing AGENTS.md", result.stdout)
         self.write("AGENTS.md")
-        self.write("CLAUDE.md", "@AGENTS.md\n")
+        (self.repo / "CLAUDE.md").symlink_to("AGENTS.md")
         self.write("README.md", "# Fixture\n\n## Non-goals\n\nNone.\n")
         result = self.audit()
         self.assertNotIn("[records]", result.stdout)
         self.assertIn("[hooks]", result.stdout)
+
+    def test_claude_import_file_is_a_gap(self):
+        self.write("AGENTS.md")
+        self.write("CLAUDE.md", "@AGENTS.md\n")
+        result = self.audit()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("[records] CLAUDE.md", result.stdout)
+        self.assertIn("ln -sf AGENTS.md CLAUDE.md", result.stdout)
 
     def test_tooling_only_package_is_not_typescript(self):
         self.write("package.json", '{"devDependencies":{"@changesets/cli":"*"}}')
