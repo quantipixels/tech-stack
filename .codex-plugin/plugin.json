@@ -1,6 +1,6 @@
 {
   "name": "tech-stack",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "QP's preferred stacks, tools, project layouts and architecture defaults",
   "author": {
     "name": "Oluwaseyi Sobande"
@@ -13,7 +13,9 @@
     "longDescription": "Starting-point decisions for new and existing projects: frameworks, libraries, analysers, toolchain, git hooks, CI, project layout and architecture defaults per stack, plus facts learned the hard way. A project may deviate when its needs justify it and records why.",
     "developerName": "Oluwaseyi Sobande",
     "category": "Developer Tools",
-    "capabilities": ["Read"],
+    "capabilities": [
+      "Read"
+    ],
     "defaultPrompt": [
       "Set up a new TypeScript web app with my tech stack.",
       "Audit this repo against my tech stack.",
