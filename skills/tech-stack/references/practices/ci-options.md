@@ -3,7 +3,7 @@
 For splitting jobs, selecting tests, caching, sharding, a merge queue or provenance. Every entry is optional until a project records why it needs it.
 
 - Read the current docs of the tools already in the lockfile before adding a tool or script; they often already do it. Prefer a tool's option over a hand-written selector, and record which option you checked.
-- Measure first, from `gh run view <id> --json jobs`. Keep queue time apart from job time, and claim a speed-up only from job times on the project's own runners. Measure again afterwards, once with a busy runner.
+- Measure first, from `gh run view <id> --json jobs`. Keep queue time apart from job time, and claim a speed-up only from job times on the project's own runners. Measure again afterwards, once with a busy runner. Before changing tests, lanes or runners, split runner time by how runs ended (green, failed, replaced by a newer push, other cancels and timeouts) and sort the failed jobs by cause (code defect, timing flake, leftover state or storage, capacity, external): the fix may be host upkeep (see Runners in `ci.md`), not test changes.
 
 ### Package-level test selection on PRs — optional
 setting: `pnpm --filter "...[origin/<base>]" run test` (changed packages and their dependents); Nx `affected` or Turborepo `--affected` from the project graph

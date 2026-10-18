@@ -1,10 +1,8 @@
 # CI (GitHub Actions)
 
 Before designing gates, check the plan: GitHub Free private repos cannot require checks (see Learned), so CI there is advisory. Size gates and their self-tests to what the plan can enforce; Alárinà's `idena` decides whether a gate earns its cost.
-
 ### actionlint — required
 verified: 2026-10-06 · https://github.com/rhysd/actionlint
-
 ### zizmor — required
 why: finds injection, unpinned actions and excess permissions that actionlint does not
 verified: 2026-10-06 · https://docs.zizmor.sh
@@ -24,9 +22,11 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 
 ## Runners
 - Public repositories use GitHub-hosted runners. Label-routed self-hosted runners are for private repositories only; fork PRs must never reach self-hosted runners, regardless of labels. Check runner-group access before selecting self-hosted: QP's organization groups do not allow public repositories, so those jobs remain queued.
-- Trigger on `labeled` and `unlabeled` as well, under the per-PR `concurrency` group, so switching reruns on the chosen runner and cancels the other run; job names stay the same, so required checks pass from either.
+- Trigger on `labeled` and `unlabeled` as well, under the per-PR `concurrency` group, so switching reruns on the chosen runner and cancels the other run; job names stay the same, so required checks pass from either. Events from the workflow's `GITHUB_TOKEN` start no run or wait for manual approval, so a person or an app token applies the label. Both paths install tools through mise, so either runner gives the same result.
 - Pick self-hosted runners by label, never by runner name: names can repeat across scopes. An organization's runners serve only its repositories; a personal repository needs its own runner or a move into the organization. A self-hosted runner gets a dedicated machine that runs nothing else; the project records its minimum size and why. When hosted minutes are blocked, follow the CI-unavailable rule in `hooks.md` rather than using a runner too small for the jobs.
-- Events from the workflow's `GITHUB_TOKEN` start no run or wait for manual approval, so a person or an app token applies the label. Both paths install tools through mise, so either runner gives the same result.
+- Keep the host's cleanup in version control (the project's infra repo) as one entry point on systemd timers: log what each step freed and fail visibly when disk stays low. Also run it on disk pressure (a check every few minutes, with a cooldown), not only on a schedule.
+- A host that also runs deployments breaks the dedicated-machine rule; record it, and never run a global `docker image prune --all` there, since it [removes every image no container uses](https://docs.docker.com/reference/cli/docker/image/prune/), idle worker images included. Leave app-image retention to the deploy tool (Kamal's [`retain_containers`](https://kamal-deploy.org/docs/configuration/overview/), which [prunes after each deploy](https://kamal-deploy.org/docs/commands/deploy/)). `docker builder prune` has [no `--builder` flag](https://docs.docker.com/reference/cli/docker/builder/prune/) and a [`docker-container` builder](https://docs.docker.com/build/builders/drivers/docker-container/) (Kamal's default) keeps its cache in its own volume, so prune those with [`docker buildx prune --builder <name>`](https://docs.docker.com/reference/cli/docker/buildx/prune/).
+- When `/tmp` is a small tmpfs, a [job-started hook](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/run-scripts) (`ACTIONS_RUNNER_HOOK_JOB_STARTED`) points `TMPDIR`, `TMP` and `TEMP` at `RUNNER_TEMP` through `$GITHUB_ENV`; the runner [empties `RUNNER_TEMP`](https://docs.github.com/en/actions/reference/workflows-and-actions/variables) itself. Any other exit code fails the job, so make the hook fail open: log and exit 0. Changing the hook path needs a runner restart, which kills the running job when the unit uses `KillMode=control-group` ([systemd's default](https://www.freedesktop.org/software/systemd/man/latest/systemd.kill.html); the runner's [stock unit](https://github.com/actions/runner/blob/main/src/Misc/layoutbin/actions.runner.service.template) uses `process`), so restart only when no job can be running.
 
 ## Base-ref gates
 Alárinà's `idena` owns [whether to add a gate and when it retires](https://github.com/quantipixels/alarina/blob/ori/plugins/software-eng/skills/idena/SKILL.md); `ironu` hands findings to it. Build an accepted gate as follows, running from the base on `pull_request_target`.
