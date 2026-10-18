@@ -22,12 +22,12 @@ verified: 2026-10-06 · https://hexdocs.pm/elixir/changelog.html
 
 ### Credo — required, strict, every default category on
 setting: `strict: true`; Refactor checks `ABCSize`, `CyclomaticComplexity`, `Nesting`, `FunctionArity`, `DuplicatedCode` with a baseline for old code
-why: a Warning-only Credo let 300-line functions and 9 copied parsers through (MyCircle, 2026-10-06)
+why: a Warning-only Credo let 300-line functions and 9 copied parsers through (2026-10-06)
 verified: 2026-10-06 · https://hexdocs.pm/credo
 
 ### Custom Credo check: catch-all must log — required
 setting: fail on `rescue`/`catch` without a `Logger` or `:telemetry` call in the clause
-why: fail-closed catch-alls hid every crash in MyCircle; no standard tool checks this
+why: fail-closed catch-alls hid every crash in one project; no standard tool checks this
 verified: 2026-10-06 · https://hexdocs.pm/credo/adding_checks.html
 
 ### Styler — default

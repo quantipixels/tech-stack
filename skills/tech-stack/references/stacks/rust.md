@@ -25,5 +25,5 @@ verified: 2026-10-06 · https://github.com/bnjbvr/cargo-machete
 
 ### Checked-in build output freshness check — required
 setting: rebuild in CI, then `git diff --exit-code -- <output path>` (for example generated WASM)
-why: MyCircle's checked-in WASM could lag its Rust source with CI green
+why: a project's checked-in WASM could lag its Rust source with CI green
 verified: 2026-10-06 · see `practices/ci.md`
