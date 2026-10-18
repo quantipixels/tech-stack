@@ -53,7 +53,7 @@ verified: 2026-10-06 · https://github.com/sapphi-red/vite-plugin-static-copy
 
 ### Oxlint through `vp lint` — required (over Biome, typescript-eslint)
 setting: `typeAware: true` with `oxlint-tsgolint`; needs TypeScript ≥ 7; each repository-owned lint rule gets tests with passing and failing samples (`RuleTester`)
-why: fast; covers 59 of 61 typescript-eslint type-aware rules. Biome rejected by preference (2026-10-06). [SIGIDI tests its rules; Ǹkan exposed the missing-test gap](https://github.com/quantipixels/tech-stack/issues/18).
+why: fast; covers 59 of 61 typescript-eslint type-aware rules. Biome rejected by preference (2026-10-06). [one project tests its rules; another exposed the missing-test gap](https://github.com/quantipixels/tech-stack/issues/18).
 verified: 2026-10-15 · https://oxc.rs/docs/guide/usage/linter/type-aware.html · https://oxc.rs/docs/guide/usage/linter/writing-js-plugins.html#writing-tests-for-custom-rules
 
 ### Oxfmt through `vp fmt` — required (over Prettier, Biome)
@@ -71,7 +71,7 @@ verified: 2026-10-06 · https://www.typescriptlang.org/tsconfig/
 
 ### knip — required
 setting: npm dev dependency (not in the mise registry); workspace config in `knip.json`; set `KNIP_DISABLE_RAW_TRANSFER=1` in CI on self-hosted runners with less than about 8 GB RAM plus swap (Knip 6)
-why: unused files, exports and dependencies; disabling raw transfer avoids its large buffer allocation on small runners ([Ǹkan #187](https://github.com/quantipixels/nkan/issues/187))
+why: unused files, exports and dependencies; disabling raw transfer avoids its large buffer allocation on small runners
 verified: 2026-10-15 · https://knip.dev · https://github.com/webpro-nl/knip/blob/main/packages/knip/src/typescript/ast-nodes.ts
 
 ### react-doctor — required for React packages
