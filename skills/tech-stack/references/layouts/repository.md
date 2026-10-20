@@ -15,7 +15,7 @@ One repository per product, polyglot when needed.
 ```
 Agent instruction files follow [the agent instructions default](../practices/agents.md).
 ## Docs and records
-Alárinà's `alarina` owns record locations; existing locations (including `docs/adr/`, `docs/solutions/` and `.nongoals`) win and are kept.
+The agent workflow owns record locations; existing locations (including `docs/adr/`, `docs/solutions/` and `.nongoals`) win and are kept.
 Its defaults: lessons in `docs/internal/solutions/<category>/`, decisions in `docs/internal/decisions/`, runbooks (deploy, backup, restore, observability) in `docs/internal/operations/`, user guides in `docs/user/`, and non-goals in the README's "Non-goals" section.
 
 ## Rules

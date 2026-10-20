@@ -11,7 +11,7 @@ Deviate when a project's real need makes another choice better, and record why i
 These entries are a floor, not the whole list. For each platform a project uses (a language, framework, host, store or CI service), also take the steps its own maintainers publish as standard, after checking their current docs. When planning, or when a choice is still open, research the options first, then present the user with a short recommendation and its alternatives instead of deciding silently.
 
 Precedence: the project's active instructions and records win over this skill; the user's explicit choice wins over both.
-Tech-stack owns stack, tooling, code layout and architecture choices; Alárinà owns how agents work.
+Tech-stack owns stack, tooling, code layout and architecture choices; how agents work belongs to the agent workflow skills it is used with.
 
 ## Read only what the task needs
 
@@ -52,4 +52,4 @@ Official docs are linked from each entry.
 ## When a choice changes
 
 Project deviations stay in that project's records.
-Changes to shared defaults go to tech-stack's maintainers as a user-approved issue or PR; stack and tooling lessons from Alárinà's `ironu` arrive as suggestions.
+Changes to shared defaults go to tech-stack's maintainers as a user-approved issue or PR; stack and tooling lessons captured by the agent workflow skills arrive as suggestions.

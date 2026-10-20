@@ -11,17 +11,17 @@ Projects start from these choices instead of re-deciding them, and deviate when 
 
 ## Works with
 
-[Alárinà](https://github.com/quantipixels/alarina) routes how agents work; tech-stack answers what to build with.
+The agent workflow skills it is used with route how agents work; tech-stack answers what to build with.
 agent-setup installs both.
-Alárinà's `alarina` owns project record locations, and `ilana` owns writing agent-facing text.
-Stack and tooling lessons from `ironu` reach tech-stack's maintainers as suggestions through a user-approved issue or PR.
+Those workflow skills own project record locations and the writing of agent-facing text.
+Stack and tooling lessons captured by the workflow skills reach tech-stack's maintainers as suggestions through a user-approved issue or PR.
 
 ## Non-goals
 
 - Product or domain decisions.
 - Generic advice that only restates tool defaults, tool descriptions, installation steps or flag lists; official docs own those.
 - Project-specific policy; keep it in that project's records, such as `CODEBASE_STANDARD.md`.
-- Agent workflows, record-keeping procedures or agent-text writing methods; Alárinà owns those.
+- Agent workflows, record-keeping procedures or agent-text writing methods; the agent workflow skills own those.
 
 ## Checks
 
@@ -37,5 +37,5 @@ See [AGENTS.md](AGENTS.md) for reference authoring rules.
 Run `mise install` and `npm ci` to install the pinned tools, Changesets and hooks.
 Each change carries a changeset; merges to `ori` update the version PR, whose merge generates `CHANGELOG.md` and bumps both host manifests.
 Set `CHANGESETS_TOKEN` to let the version PR trigger checks; with `GITHUB_TOKEN`, a maintainer must trigger/approve its checks as needed.
-Alárinà's marketplace lists this independent repository for both hosts; no copied skill or extra publishing step is needed.
+The agent workflow marketplace lists this independent repository for both hosts; no copied skill or extra publishing step is needed.
 Host caches refresh only after the version PR merges and users update their plugins.

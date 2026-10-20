@@ -21,4 +21,4 @@
 - Agent instruction files follow [the agent instructions default](agents.md#agent-instructions--default-over-a-claudemd-import-with-claude-only-lines).
 - Non-goals in a README "Non-goals" section or an existing `.nongoals` file.
 - Recommend `ARCHITECTURE.md` when a module map and boundaries need explanation, and `CODEBASE_STANDARD.md` when rules the tools do not yet enforce need a shared reference.
-- Decisions and real lessons follow the project's existing locations or Alárinà's `alarina` defaults summarized in `../layouts/repository.md`; create records only when there is something to keep.
+- Decisions and real lessons follow the project's existing locations or the agent workflow's default record locations, summarized in `../layouts/repository.md`; create records only when there is something to keep.

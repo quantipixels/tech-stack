@@ -1,6 +1,6 @@
 # CI (GitHub Actions)
 
-Before designing gates, check the plan: GitHub Free private repos cannot require checks (see Learned), so CI there is advisory. Size gates and their self-tests to what the plan can enforce; Alárinà's `idena` decides whether a gate earns its cost.
+Before designing gates, check the plan: GitHub Free private repos cannot require checks (see Learned), so CI there is advisory. Size gates and their self-tests to what the plan can enforce; the agent workflow's method for deciding whether a gate is worth adding settles whether it earns its cost.
 ### actionlint — required
 verified: 2026-10-06 · https://github.com/rhysd/actionlint
 ### zizmor — required
@@ -13,7 +13,7 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 - For PR checks, follow [PR run efficiency](ci-pr-checks.md): cancel superseded runs and skip check jobs while the PR is a draft. The merge-gating job reports on every non-draft `pull_request` head.
 - Filter expensive jobs by path inside an unfiltered PR workflow; add an aggregator with `if: always() && github.event.pull_request.draft != true` that succeeds for intentional skips and fails for failures or cancellations.
 - With CI limited to PRs and default-branch pushes, branch pushes without a ready PR get no checks. Open a draft PR early for tracking; mark it ready when checks should begin, or run local checks while drafting.
-- Select slow lanes using Alárinà's `ipile` [CI-depth design](https://github.com/quantipixels/alarina/blob/ori/plugins/software-eng/skills/ipile/references/ci-depth.md). Before splitting jobs, selecting tests, caching or sharding, research and measure, then choose from the optional [CI options](ci-options.md).
+- Select slow lanes using the agent workflow's CI-depth method. Before splitting jobs, selecting tests, caching or sharding, research and measure, then choose from the optional [CI options](ci-options.md).
 - Every checked-in generated artifact (WASM, generated clients, generated validators) has a freshness job: regenerate, then `git diff --exit-code`.
 - When output depends on the build host (Rust `wasm32` bytes differ between aarch64 and x86_64, [cargo#8140](https://github.com/rust-lang/cargo/issues/8140)), byte-compare fails. Check in a stamp holding a hash of the inputs (sources, lockfile, toolchain, build script) and of the output instead; the job fails when either hash no longer matches, and the artifact is rebuilt only when inputs change.
 - Size matrices to real runner capacity: parallel jobs on one runner queue behind each other, so one concurrent job can finish sooner.
@@ -29,7 +29,7 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 - When `/tmp` is a small tmpfs, a [job-started hook](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/run-scripts) (`ACTIONS_RUNNER_HOOK_JOB_STARTED`) points `TMPDIR`, `TMP` and `TEMP` at `RUNNER_TEMP` through `$GITHUB_ENV`; the runner [empties `RUNNER_TEMP`](https://docs.github.com/en/actions/reference/workflows-and-actions/variables) itself. A hook's non-zero exit fails the job, so make the hook fail open: log and exit 0. Changing the hook path needs a runner restart, which kills the running job when the unit uses `KillMode=control-group` ([systemd's default](https://www.freedesktop.org/software/systemd/man/latest/systemd.kill.html); the runner's [stock unit](https://github.com/actions/runner/blob/main/src/Misc/layoutbin/actions.runner.service.template) uses `process`), so restart only when no job can be running.
 
 ## Base-ref gates
-Alárinà's `idena` owns [whether to add a gate and when it retires](https://github.com/quantipixels/alarina/blob/ori/plugins/software-eng/skills/idena/SKILL.md); `ironu` hands findings to it. Build an accepted gate as follows, running from the base on `pull_request_target`.
+The agent workflow's gate-decision method owns whether to add a gate and when it retires, and its lesson capture hands findings to that method. Build an accepted gate as follows, running from the base on `pull_request_target`.
 - Read the head only as git data (`git cat-file`, `git diff`, `git ls-tree`); parse text, never eval. Never check it out or run its `mix`, `npm`, `make`, hooks or scripts, including a head copy of the gate.
 - Exceptions and baselines come only from base files, each with file, identity and reason; ignore entries without a reason or present only in the head. Tool versions come from the base lockfile.
 - `permissions: {}` with `contents: read` per job, `persist-credentials: false`, actions pinned by SHA. Fetch `refs/pull/N/head` as objects and check it equals the event's head SHA.

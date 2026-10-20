@@ -24,7 +24,7 @@
 - Lock-wait and race behavior needs a database interleaving drill, because a sandboxed test cannot race; plain authorization rules are ordinary tests. Drill each distinct race that ordinary tests cannot exercise, and merge cases that would catch the same failure.
 - Clone ordinary drill databases from one migrated template (`CREATE DATABASE … TEMPLATE`) instead of migrating from zero per test or module; migration and bootstrap tests start from their real starting state.
 - A security reset (epoch restore, credential generation, password change) has one ordinary test per session kind, plus a real round-trip drill when the accepted behavior includes restoring a real database.
-- Alárinà owns proof scope and retirement. The async-conversion rules in `elixir-phoenix` (zero unmapped losses, never loosen an assertion) apply only during that conversion.
+- The agent workflow skills own proof scope and retirement. The async-conversion rules in `elixir-phoenix` (zero unmapped losses, never loosen an assertion) apply only during that conversion.
 - A test that only one machine can run is not proof; it runs in CI or in `check:full`.
 - A fixture that runs git drops every inherited `GIT_*` variable and passes its own repo path, so it cannot reach the real repo when a hook runs it (see [hooks](hooks.md#rules)).
 
