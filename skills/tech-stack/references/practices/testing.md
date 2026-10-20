@@ -35,4 +35,4 @@
 - Record an engine-exit diagnostic that cannot be fixed in an exact-match allowlist: message, resource path, count. Every other ERROR/WARNING fails.
 
 ## Performance comparisons
-- Interleave baseline and candidate runs on the same machine, at least 3 runs each (Alárinà requires 5). Report median and p95 with ranges; serial batches can turn time-dependent noise into a false regression.
+- Interleave baseline and candidate runs on the same machine, at least 5 runs per side. Report median and p95 with ranges; serial batches can turn time-dependent noise into a false regression.
