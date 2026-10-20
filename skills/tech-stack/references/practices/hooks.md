@@ -24,7 +24,7 @@ verified: 2026-10-15 · https://github.com/evilmartians/lefthook · https://vite
 | Dependency, licence and vulnerability scanning | CI |
 | Workflow, container and shell config linting | CI |
 | Security static analysis | CI |
-| Slow lanes (end-to-end, drills, database interleaving) | CI; see Alárinà's `ipile` CI-depth design linked in `ci.md` |
+| Slow lanes (end-to-end, drills, database interleaving) | CI; see the agent workflow's CI-depth method referenced in `ci.md` |
 | Base-ref gates, OS matrices, checks needing CI-only secrets | CI |
 - In an existing repo, hooks call its existing check entry point; adding tools from this skill is a separate change the owner asks for.
 - `check` proves the code passes; proving the change works on the running product is verification, done by the agent after the build, not in hooks.
@@ -35,6 +35,6 @@ verified: 2026-10-15 · https://github.com/evilmartians/lefthook · https://vite
 ## Rules
 - Hooks call mise tasks or tools pinned in `mise.toml`; never a tool from the global PATH.
 - A hook never rewrites files the user did not stage.
-- Gate launchers clear inherited `GIT_*` variables before tests; fixture helpers also drop every inherited `GIT_*` variable from Git subprocess environments. Git's hook environment can redirect a disposable repository's operations into the real checkout (Alárinà #122).
-- Keep pre-push fast or add `-o ServerAliveInterval=30` to the existing SSH command, preserving its identity and proxy options: Git opens the connection before hooks run (Alárinà #122).
+- Gate launchers clear inherited `GIT_*` variables before tests; fixture helpers also drop every inherited `GIT_*` variable from Git subprocess environments. Git's hook environment can redirect a disposable repository's operations into the real checkout (seen when tests run under a pre-push hook emptied the real index and committed fixture files onto the current branch).
+- Keep pre-push fast or add `-o ServerAliveInterval=30` to the existing SSH command, preserving its identity and proxy options: Git opens the connection before hooks run (seen when a 7-minute pre-push gate passed, but the host had closed the idle connection and the push failed).
 - Skipping a hook (`--no-verify`) is the user's call only; agents do not skip hooks.
