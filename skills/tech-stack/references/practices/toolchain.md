@@ -10,6 +10,12 @@ setting: `check` (fast core, run by pre-push and CI), `check:full` (database, dr
 why: when hooks and CI run the same tasks, local and CI checks cannot drift
 verified: 2026-10-06 · https://mise.jdx.dev/tasks/
 
+### Changesets release-time versioning — default (over changesets/action's standing version PR)
+setting: a manually dispatched Release runs the version script, commits `chore: release <tag>` to the default branch, builds, tags that commit, then publishes; a `dry_run` input writes the planned version and changelog to the run summary and stops. If the push is rejected because the branch moved, fail before tagging.
+why: one click instead of PR + merge + click, and no version PR re-running CI after every merge
+learned: `GITHUB_TOKEN` with `contents: write` can push only where no protection or ruleset blocks it (otherwise use an App token allowed to bypass), and its pushes trigger no workflows, so the version commit gets no CI run
+verified: 2026-10-20 · https://changesets.dev/guide/cli · https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow#triggering-a-workflow-from-a-workflow
+
 ## Rules
 - A check that CI runs must exist as a mise task; no CI-only checks. Slow lanes live in `check:full` and CI runs them on demand.
 - Project scripts are thin wrappers that a mise task calls; they do not install tools.
