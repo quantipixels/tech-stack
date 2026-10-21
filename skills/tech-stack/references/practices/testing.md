@@ -1,16 +1,8 @@
 # Tests, complexity and baselines
 
-## Coverage
-- No coverage threshold (decided 2026-10-06). Use a CRAP limit of 30 on changed functions: CRAP = complexity² × (1 − coverage)³ + complexity.
-- Complexity per function: warn above 10, fail above 15 on new or changed code (Credo, PMD, detekt, Oxlint `complexity`).
-
-## CRAP gate
-- Limit 30, the Crap4j original; tighten it later once the codebase sits well under it.
-- Score each clause of a multi-clause function (Elixir, Erlang) on its own complexity and coverage, and report the worst clause. Summing per function name makes a dispatch function with many trivial clauses fail forever.
-- Count only executable lines and AST nodes, never comments or formatting, so a comment-only edit is not a change.
-- When the whole codebase already passes, gate all of it rather than only changed functions: it is simpler (no base-diff logic) and also catches a coverage drop from a deleted test. Use a changed-only gate while old code still fails.
-- No exemption list. The fix is a split or a test.
-- A failure line names the way out: the coverage the clause needs to pass, or "split it" when even 100% coverage cannot (complexity over about 30).
+## Coverage and complexity
+- No coverage threshold (decided 2026-10-06).
+- Complexity per function: warn above 10, fail above 15 on new or changed code (Credo, PMD, detekt, Oxlint `complexity`); fix failures by separating pure decision logic from I/O, not by chopping code into arbitrary tiny functions.
 - Mutation testing is a hand run on a few risky modules (auth, admission), not a CI step: it is slow, and a 2-core runner cannot afford it.
 
 ## Baselines for old code
@@ -20,6 +12,7 @@
 - For project-wide compiler warnings (for example Godot `project.godot`), lock per-file exemptions to the content hash. Any edit removes the exemption; inline suppressions of strict rules fail the gate.
 
 ## Tests
+- Mocking your own modules — rejected: fakes behind a port, checked by the same contract tests as the real adapter, instead; tests coupled to internals fail on refactors, not regressions.
 - A test asserts the reason for a failure, not only the status, so a crash cannot pass as a denial.
 - Lock-wait and race behavior needs a database interleaving drill, because a sandboxed test cannot race; plain authorization rules are ordinary tests. Drill each distinct race that ordinary tests cannot exercise, and merge cases that would catch the same failure.
 - Clone ordinary drill databases from one migrated template (`CREATE DATABASE … TEMPLATE`) instead of migrating from zero per test or module; migration and bootstrap tests start from their real starting state.
