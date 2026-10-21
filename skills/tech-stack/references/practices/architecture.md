@@ -6,7 +6,7 @@
 - The server owns authorization; browser and mobile clients never do.
 - Contracts first: wire contracts in `contracts/`, versioned apart from the app.
 - Domain modules own behavior and state; the web/transport layer only parses, admits and projects.
-- Module boundaries are enforced by a tool (Boundary, Spring Modulith, an import rule), not by convention.
+- Module boundaries — required: tools enforce direction too; the domain core imports no adapter, framework or UI module: Elixir [Boundary](https://hexdocs.pm/boundary/Boundary.html) (`deps`/`exports` per boundary; `type: :strict` checks external apps), Spring [ArchUnit layer rules](https://www.archunit.org/userguide/html/000_Index.html#_layer_checks) beside [Spring Modulith](https://docs.spring.io/spring-modulith/reference/verification.html), TypeScript [Oxlint `no-restricted-imports`](https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-restricted-imports) scoped to core files (cover aliases and relative paths; dependency-cruiser rejected: reuse the stack's linter), Rust [separate crates](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-path-dependencies) with no outward dependencies in the core manifest; verified: 2026-10-21.
 - Safety-critical and costly features sit behind server-side switches that default off and fail closed.
 
 ## Lessons (each from a real defect)

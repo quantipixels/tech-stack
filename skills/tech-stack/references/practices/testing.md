@@ -12,6 +12,7 @@
 - For project-wide compiler warnings (for example Godot `project.godot`), lock per-file exemptions to the content hash. Any edit removes the exemption; inline suppressions of strict rules fail the gate.
 
 ## Tests
+- Mocking your own modules — rejected: fakes behind a port, checked by the same contract tests as the real adapter, instead; tests coupled to internals fail on refactors, not regressions.
 - A test asserts the reason for a failure, not only the status, so a crash cannot pass as a denial.
 - Lock-wait and race behavior needs a database interleaving drill, because a sandboxed test cannot race; plain authorization rules are ordinary tests. Drill each distinct race that ordinary tests cannot exercise, and merge cases that would catch the same failure.
 - Clone ordinary drill databases from one migrated template (`CREATE DATABASE … TEMPLATE`) instead of migrating from zero per test or module; migration and bootstrap tests start from their real starting state.
