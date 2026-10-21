@@ -15,7 +15,7 @@ verified: 2026-10-18 · https://vitest.dev/guide/cli#changed · https://pnpm.io/
 
 ### Elixir: full run in shards — default
 setting: `mix test --partitions N` as N separate jobs (`MIX_TEST_PARTITION` set per job)
-why: Elixir has no CI-safe "changed since ref"; `mix test --stale` compares against the last local run. Shards finish sooner and a failure reruns alone. With a coverage gate, export coverage per shard and gate once on the merged data.
+why: Elixir has no CI-safe "changed since ref"; `mix test --stale` compares against the last local run. Shards finish sooner and a failure reruns alone.
 verified: 2026-10-18 · https://hexdocs.pm/mix/Mix.Tasks.Test.html
 
 ### Graph tools (Turborepo, Nx, Moon, Bazel) — optional
