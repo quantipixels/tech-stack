@@ -29,12 +29,11 @@ why: a project's checked-in WASM could lag its Rust source with CI green
 verified: 2026-10-06 · see `practices/ci.md`
 
 ### Sans-I/O client core — default (over a core that owns its network and storage)
-setting: one crate holds the client protocol rules (API calls, session, sync and repair, local state, cryptography); it takes commands and completions and emits effects; host adapters per platform do HTTP, sockets, storage, timers, randomness and key sealing
-setting: the storage port is one atomic compare-and-set save with leases, not key-value; keys stay behind opaque seal and open handles; one repair owner, with sockets and push only waking it
-why: each rule lives once for web, iOS and Android, and tests need no emulator or network
-verified: 2026-10-23 · https://sans-io.readthedocs.io/
+setting: for clients that share protocol and state rules across platforms: one crate holds those rules; it takes commands and completions and emits effects, and per-platform host adapters do HTTP, sockets, storage, timers and randomness
+why: each rule lives once, and shared protocol rules can be tested in memory without an emulator or network; host adapters need their own verification
+verified: 2026-10-23 · https://sans-io.readthedocs.io/how-to-sans-io.html
 
 ### UniFFI for native bindings — default (over a Kotlin Multiplatform bridge)
-setting: Swift and Kotlin call the generated bindings directly; the web uses `wasm-bindgen`; expose an explicit cancel call, since async maps to Kotlin `suspend` and Swift `async` without built-in cancellation
-why: UniFFI's built-in bindings are Kotlin, Swift and Python; Kotlin Multiplatform generators are third-party and pre-1.0
-verified: 2026-10-23 · https://mozilla.github.io/uniffi-rs/latest/
+setting: Swift and Kotlin call the generated bindings directly; our web build uses `wasm-bindgen`; expose an explicit cancel call, since UniFFI does not directly support cancelling async calls
+why: Swift and Kotlin use UniFFI's maintained generators directly, without adding a third-party Kotlin Multiplatform generator and bridge
+verified: 2026-10-23 · https://mozilla.github.io/uniffi-rs/latest/futures.html
