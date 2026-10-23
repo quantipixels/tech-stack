@@ -1,7 +1,10 @@
 # Architecture defaults
 
-## Quality lens
-- Quality lens — required: judge backend structure by AX and DX, and frontend structure by AX, DX and UX, where a structural change must not make the UI or UX worse. [AX](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/AX.md): an agent works without reading everything, through fast deterministic checks whose failures arrive as text, predictable structure with much behaviour behind small interfaces, and lean always-loaded context. [DX](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/DX.md): a person can understand, navigate, review and contribute; human review is part of DX. Verified: 2026-10-23.
+### Quality lens — required
+setting: judge backend structure by AX and DX, and frontend structure by AX, DX and UX, where a structural change must not make the UI or UX worse
+setting: AX: an agent works without reading everything, through fast deterministic checks whose failures arrive as text, predictable structure with much behaviour behind small interfaces, and lean always-loaded context; DX: a person can understand, navigate, review and contribute, and human review is part of DX
+why: agents do most of the building and relearn the code every session, while people still navigate and review it; frontends also answer to their users
+verified: 2026-10-23 · https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/AX.md · https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/DX.md
 
 ## Starting shape
 - One modular monolith per product (over microservices) until a measured need splits it.
