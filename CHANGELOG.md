@@ -1,5 +1,26 @@
 # tech-stack
 
+## 0.3.0
+
+### Minor Changes
+
+- 107cd3d: Add a required quality lens (AX and DX for backends, plus UX for frontends), a new reference for apps with child users (a separate child app, no third-party ads, analytics or crash SDKs, content-free push, minimal age data), and two Rust entries: a sans-I/O client core for clients that share protocol rules across platforms, and UniFFI for native bindings over a Kotlin Multiplatform bridge.
+
+### Patch Changes
+
+- 9a9f537: Keep all agent instructions in AGENTS.md and make CLAUDE.md a symlink to it by default.
+- 6a128a3: Benchmark comparisons need at least 5 interleaved runs per side, up from 3.
+- 0a912c1: Add CI change selection: one selector shared by CI and the pre-push hook, native selection per domain, Elixir test shards, graph tools and slicing on one runner.
+- 3498f8d: Testing practice: hand-run mutation testing, test declutter rules, and test-database hygiene (dirty-start detection, validator name patterns).
+- 21583d2: Describe the agent workflow skills by role instead of naming a private repository, its skills, links or issues. No rule, default or entry status changes.
+- 656656f: Remove names of private projects from the references and state that this public repository never names them.
+- 6221480: Record release-time Changesets versioning as the default, including token requirements, dry runs and failure handling.
+- ae3babf: Remove the CRAP gate in favour of the complexity limit; coverage is not gated.
+  
+  Require tools to enforce dependency direction into the domain core, and prefer contract-tested fakes behind ports over mocking internal modules.
+- a96cd3e: Add self-hosted runner upkeep to the CI rules (versioned cleanup on systemd timers, cleaning on disk pressure, a job-started hook for small `/tmp`, Docker prune limits on shared hosts, safe hook and restart handling). Measure where runner time goes, by how runs ended and by failure cause, before changing tests or runners.
+- d141cf5: Repository layout: drop the stale `~/.qp/<owner>/<repo>/` location for working records; the workflow pack that owns record locations says where they go.
+
 ## 0.2.0
 
 ### Minor Changes
