@@ -24,6 +24,7 @@ Tech-stack owns stack, tooling, code layout and architecture choices; how agents
 | Git hooks | `references/practices/hooks.md` |
 | CI | `references/practices/ci.md` |
 | Security scanning, containers, secrets | `references/practices/security.md` |
+| An app with child users (stores, SDKs, push, age data) | `references/practices/architecture.md` |
 | Database, migrations | `references/practices/data.md` |
 | API or realtime contracts, generated clients | `references/practices/contracts.md` |
 | Tests, coverage, complexity, baselines | `references/practices/testing.md` |
