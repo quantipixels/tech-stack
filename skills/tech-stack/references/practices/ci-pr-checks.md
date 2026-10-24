@@ -1,4 +1,4 @@
-# Prevent wasted GitHub Actions runs
+# Prevent wasted CI runs
 
 ### PR check cancellation and draft guards — required
 why: superseded commits and draft PRs should not consume check runners
@@ -23,3 +23,13 @@ concurrency:
 - Concurrency cancellation needs a new run in the same group. If path filters prevent that run, use a trusted cleanup workflow on PR updates to cancel only older heads, rechecking the current head before cancellation. Never check out PR code in privileged cleanup.
 
 See [job conditions](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-jobs-with-conditions) and [reusable-workflow concurrency](https://docs.github.com/en/actions/reference/workflows-and-actions/reusing-workflow-configurations#supported-keywords-for-jobs-that-call-a-reusable-workflow).
+
+### GitLab draft pipeline suppression — default (over per-push `ci.skip` alone)
+setting: for shared runners, put a `workflow:rules` rejection before existing allow rules: `if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_DRAFT == "true"'` with `when: never`. Also suppress duplicate branch pipelines for branches with open MRs; preserve intended default-branch, tag and scheduled pipelines.
+why: draft MRs run the same pipelines as ready MRs; pushes to drafts consumed runners shared with other projects. Project rules enforce suppression even when a push omits an option.
+verified: 2026-10-24 · https://docs.gitlab.com/ci/yaml/workflow/#skip-pipelines-for-draft-merge-requests · https://docs.gitlab.com/user/project/merge_requests/drafts/#pipelines-for-drafts · https://docs.gitlab.com/ci/pipelines/#skip-a-pipeline · https://docs.gitlab.com/ci/pipelines/merge_request_pipelines/ · https://docs.gitlab.com/api/merge_requests/#create-merge-request-pipeline
+
+- `CI_MERGE_REQUEST_DRAFT` requires GitLab 17.10+; on older versions use the documented title regex. Draft MR rules alone do not suppress branch pipelines; use the workflow guide's `CI_OPEN_MERGE_REQUESTS` switch to avoid duplicate push pipelines.
+- `git push -o ci.skip` is a fallback for branch pipelines, not MR pipelines. Do not treat it as draft suppression for both.
+- If project CI cannot change yet, put `[skip ci]` in the draft MR's title to skip basic MR, merged results and merge train pipelines until the directive is removed. This option requires GitLab 19.5+ with `ci_skip_pipeline_from_mr_title` enabled (enabled by default); execution policies can restrict or disable skipping. Keep `workflow:rules` as the default.
+- When an MR becomes next to merge, remove any title skip directive, mark it ready and explicitly create its pipeline with `POST /projects/:id/merge_requests/:merge_request_iid/pipelines`; configure CI to allow MR pipelines. Marking ready is not a documented pipeline trigger: the documented triggers are MR creation, a new source-branch commit, or Run pipeline. Do not rely on a title/status change to start checks.
