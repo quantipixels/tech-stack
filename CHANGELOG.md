@@ -1,5 +1,11 @@
 # tech-stack
 
+## 0.3.1
+
+### Patch Changes
+
+- f624022: Add two lessons: tests must not leave process-wide settings changed for later tests, and a CI deploy to AWS ECS waits on its own deployment's rollout state instead of `aws ecs wait services-stable`.
+
 ## 0.3.0
 
 ### Minor Changes
