@@ -32,7 +32,7 @@ packages/ui/
 - The shared UI package is source: `exports` point at `.tsx` and `.css`, each app's Vite compiles it, and apps add it to Tailwind with `@source`.
 - Inside the package, files import each other by package name (`@scope/ui/lib/utils`), never `@/`: an app compiles the package with its own resolver, where `@` is the app's `src`. Lint bans `@/` there.
 - The package only draws. Its lint bans the API client, server-state, router and store libraries, `apps/**` paths and network globals (`no-restricted-globals` with `checkGlobalObject: true` also catches `globalThis.fetch`), in tests and the gallery too; prove each ban with a deliberate violation.
-- Apps' lint recognises shared components by import prefix (`settings.shadcn.ui` = `@scope/ui/components`); icons export from another subpath, so pages can still size and colour them.
+- Icons export from a subpath outside the shared component prefix, so pages can still size and colour them; set up component recognition with the [shadcn lint monorepo guidance](https://github.com/shadcn-ui/lint/blob/main/README.md#monorepos).
 - A feature imports another feature only through that feature's `index.ts`; enforce with an import rule.
 - Server state lives in TanStack Query; Zustand never caches server data.
 - The API client and its Zod schemas are generated from `contracts/` into `packages/<client>`; apps do not hand-write response types.
