@@ -23,6 +23,7 @@ Tech-stack owns stack, tooling, code layout and architecture choices; how agents
 | Agent definitions and routing | `references/practices/agents.md` |
 | Git hooks | `references/practices/hooks.md` |
 | CI | `references/practices/ci.md` |
+| Deploys from CI (AWS ECS) | `references/practices/deploy.md` |
 | Security scanning, containers, secrets | `references/practices/security.md` |
 | An app with child users (stores, SDKs, push, age data) | `references/practices/child-users.md` |
 | Database, migrations | `references/practices/data.md` |
