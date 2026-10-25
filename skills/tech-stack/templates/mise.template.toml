@@ -1,4 +1,4 @@
-# Copy and trim to the stacks the project uses. Pin exact versions.
+# Copy and trim to the stacks the project uses. Replace each `latest` with an exact version.
 # Tools not in the mise registry use the backend shown (see practices/toolchain.md).
 [tools]
 node = "22"

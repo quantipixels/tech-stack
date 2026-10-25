@@ -1,7 +1,7 @@
 # Rust
 
-### Toolchain pinned in `mise.toml` — required
-setting: `rust = "<version>"`; add each target the crate builds (for example `wasm32-unknown-unknown`)
+### Toolchain pinned — required
+setting: in the tool manifest (`rust = "<version>"` in `mise.toml`); add each target the crate builds (for example `wasm32-unknown-unknown`)
 why: an unpinned toolchain lets local and CI builds differ
 verified: 2026-10-06 · https://mise.jdx.dev/lang/rust.html
 
