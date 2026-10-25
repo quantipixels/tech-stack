@@ -37,4 +37,4 @@ Review every entry every six months against the inclusion test and its source.
 Every user-visible change carries a `.changeset/*.md` entry (`npm run changeset`).
 Use patch for fixes and wording, minor for new capabilities; breaking changes need the owner.
 Never hand-edit versions: `npm run version` generates the changelog and syncs both manifests.
-Merges to `ori` update one version PR. Its merge updates marketplace installs after hosts refresh their cached version.
+Releases run by hand: start the Release workflow on `ori` (a dry run first by default). It commits the version and changelog to `ori`, which updates marketplace installs after hosts refresh their cached version.
