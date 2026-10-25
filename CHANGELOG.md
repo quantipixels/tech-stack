@@ -1,5 +1,19 @@
 # tech-stack
 
+## 0.4.0
+
+### Minor Changes
+
+- 1c6600a: Add source-checked defaults for suppressing GitLab draft MR pipelines, sizing and draining Spring Boot schedulers, and keeping Spring Security account-status checks out of user lookup. Clarify that `ci.skip` does not suppress merge request pipelines.
+- f7743a6: Add an opt-in option to run slow lanes locally and at release instead of on every PR.
+- b7113f3: State the tool manifest, shared task entry points and hook manager as tool-neutral rules, with mise and lefthook as the defaults. Every CI check exists as a task, and where it runs is set per lane. Mark the slow-lanes sources verified.
+
+### Patch Changes
+
+- c8ce1ee: Remove machine upkeep (runner host cleanup, Docker pruning, runner temp folders), duplicated CI rules and lessons, and project-specific references.
+- 474ab60: Add the layout for a shared shadcn UI package used by several apps. It's a source package whose files import each other by package name, never `@/`. Lint keeps it presentational: no API, server-state, router or store imports and no network globals. Apps' lint recognises its components by import prefix.
+- f624022: Add two lessons: tests must not leave process-wide settings changed for later tests, and a CI deploy to AWS ECS waits on its own deployment's rollout state instead of `aws ecs wait services-stable`.
+
 ## 0.3.0
 
 ### Minor Changes
