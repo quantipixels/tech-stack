@@ -1,12 +1,12 @@
 # Toolchain
 
-### mise — required for every runtime and analyser (over asdf, `.tool-versions` alone, per-tool installers)
-setting: one `mise.toml` with `[tools]` for runtimes **and** analysers; see `templates/mise.template.toml`
+### One pinned tool manifest — required; mise by default (over asdf, `.tool-versions` alone, per-tool installers)
+setting: every runtime **and** analyser pinned in one file that local machines and CI both install from; with mise, `[tools]` in `mise.toml` (see `templates/mise.template.toml`). Another manager that does the same (Nix, devbox) is fine when the project records why
 why: one install, the same versions locally and in CI
 verified: 2026-10-06 · https://mise.jdx.dev
 
-### mise tasks — required as the only gate entry points
-setting: `check` (fast core, run by pre-push and CI), `check:full` (database, drills, end-to-end), `fix`; lefthook and CI call only these
+### Shared task entry points — required; mise tasks by default
+setting: `check` (fast core, run by pre-push and CI), `check:full` (database, drills, end-to-end), `fix`; hooks and CI call only these. A task runner the project already uses (just, make, package scripts, Gradle) can host them
 why: when hooks and CI run the same tasks, local and CI checks cannot drift
 verified: 2026-10-06 · https://mise.jdx.dev/tasks/
 
@@ -17,9 +17,9 @@ learned: `GITHUB_TOKEN` with `contents: write` can push only where no protection
 verified: 2026-10-20 · https://changesets.dev/guide/cli · https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow#triggering-a-workflow-from-a-workflow
 
 ## Rules
-- A check that CI runs must exist as a mise task; no CI-only checks. Slow lanes live in `check:full` and CI runs them on demand.
-- Project scripts are thin wrappers that a mise task calls; they do not install tools.
-- A new analyser is added to `mise.toml` first, then to a task, then to the hook or CI that calls the task.
+- Every check CI runs exists as a task, so anyone can run it locally; none lives only in workflow YAML. Where each task runs (hook, PR, release) is set in `hooks.md` and `ci.md`. Slow lanes live in `check:full`.
+- Project scripts are thin wrappers that a task calls; they do not install tools.
+- A new analyser is added to the tool manifest first, then to a task, then to the hook or CI that calls the task.
 
 ## Learned
 - Not in the mise registry (2026-10-06): squawk, oasdiff, cargo-deny, cargo-machete, knip. Use `github:sbdchd/squawk`, `github:oasdiff/oasdiff`, `cargo:cargo-deny`, `cargo:cargo-machete`; knip is an npm dev dependency.

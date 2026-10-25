@@ -1,7 +1,7 @@
 # Godot (GDScript)
 
-### Godot via mise — required
-setting: `godot = "4.5.1-stable"`; checked on macOS and `ubuntu-latest` CI
+### Godot pinned — required
+setting: in the tool manifest (`godot = "4.5.1-stable"` in `mise.toml`); checked on macOS and `ubuntu-latest` CI
 why: pin the same engine locally and in CI
 verified: 2026-10-07 · https://godotengine.org/download/archive/4.5.1-stable/
 

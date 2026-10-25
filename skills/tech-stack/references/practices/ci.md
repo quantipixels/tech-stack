@@ -8,7 +8,7 @@ why: finds injection, unpinned actions and excess permissions that actionlint do
 verified: 2026-10-06 · https://docs.zizmor.sh
 
 ## Rules
-- Jobs call mise tasks only (`mise run check`, `mise run check:full`); install tools with the mise action.
+- Jobs call the shared tasks only (`mise run check`, `mise run check:full`); install tools from the pinned manifest (the mise action by default).
 - Pin every action by commit SHA; set `permissions:` to the minimum per job; `persist-credentials: false` on checkout.
 - For PR checks, follow [PR run efficiency](ci-pr-checks.md): cancel superseded runs and skip check jobs while the PR is a draft. The merge-gating job reports on every non-draft `pull_request` head.
 - Filter expensive jobs by path inside an unfiltered PR workflow; add an aggregator with `if: always() && github.event.pull_request.draft != true` that succeeds for intentional skips and fails for failures or cancellations.
@@ -23,7 +23,7 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 
 ## Runners
 - Public repositories use GitHub-hosted runners. Label-routed self-hosted runners are for private repositories only; fork PRs must never reach self-hosted runners, regardless of labels. Check runner-group access before selecting self-hosted: QP's organization groups do not allow public repositories, so those jobs remain queued.
-- Trigger on `labeled` and `unlabeled` as well, under the per-PR `concurrency` group, so switching reruns on the chosen runner and cancels the other run; job names stay the same, so required checks pass from either. Events from the workflow's `GITHUB_TOKEN` start no run or wait for manual approval, so a person or an app token applies the label. Both paths install tools through mise, so either runner gives the same result.
+- Trigger on `labeled` and `unlabeled` as well, under the per-PR `concurrency` group, so switching reruns on the chosen runner and cancels the other run; job names stay the same, so required checks pass from either. Events from the workflow's `GITHUB_TOKEN` start no run or wait for manual approval, so a person or an app token applies the label. Both paths install tools from the pinned manifest, so either runner gives the same result.
 - Pick self-hosted runners by label, never by runner name: names can repeat across scopes. An organization's runners serve only its repositories; a personal repository needs its own runner or a move into the organization. When hosted minutes are blocked, follow the CI-unavailable rule in `hooks.md` rather than using a runner too small for the jobs.
 
 ## Base-ref gates

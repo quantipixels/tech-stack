@@ -9,8 +9,8 @@ One repository per product, polyglot when needed.
   tools/<tool>/          internal tools and test endpoints (not deployed)
   infra/                 Dockerfiles, compose, deployment config
   scripts/               thin wrappers that mise tasks call
-  mise.toml              runtimes, analysers, tasks
-  lefthook.yml           git hooks that call mise tasks
+  mise.toml              runtimes, analysers, tasks (or the project's own manifest and task runner)
+  lefthook.yml           git hooks that call those tasks
   AGENTS.md  CLAUDE.md   agent instruction files (see below)
 ```
 Agent instruction files follow [the agent instructions default](../practices/agents.md).
