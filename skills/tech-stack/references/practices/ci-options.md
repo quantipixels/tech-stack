@@ -18,7 +18,7 @@ verified: 2026-10-18 · https://nx.dev/ci/features/affected
 ### Parallel jobs and sharding — optional
 setting: separate suite jobs, or `vitest --shard=<i>/<n>` in a matrix
 why: shorter PR feedback when suites exceed about 10 minutes and spare runners exist. Pair heavy jobs to runner count and memory; each job repeats checkout and install. Elixir and single-runner notes: [change selection](ci-change-selection.md).
-verified: pending · https://vitest.dev/guide/improving-performance
+verified: 2026-10-25 · https://vitest.dev/guide/improving-performance
 
 ### Merge queue — optional, plan-dependent
 setting: add `merge_group` to the PR workflow triggers
@@ -27,7 +27,7 @@ verified: 2026-10-18 · https://docs.github.com/en/repositories/configuring-bran
 
 ### Flaky-test quarantine — optional
 why: keeps unreliable tests out of the gate without hiding them. Each entry has an issue, owner, date, failure rate and expiry; CI reports expired ones. Retry only known-safe failures.
-verified: pending · https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html
+verified: 2026-10-25 · https://martinfowler.com/articles/nonDeterminism.html
 
 ### Build provenance and OpenSSF Scorecard — optional
 setting: `actions/attest` on release artifacts (SLSA Build L2; L3 with reusable workflows); Scorecard on a schedule

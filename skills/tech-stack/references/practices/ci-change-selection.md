@@ -20,8 +20,8 @@ verified: 2026-10-18 · https://hexdocs.pm/mix/Mix.Tasks.Test.html
 
 ### Graph tools (Turborepo, Nx, Moon, Bazel) — optional
 why: worth their setup only at larger scale, with many domains or several runners. Moon is the closest fit for a polyglot repo. Below that, the selector plus native selection is enough.
-verified: pending · https://moonrepo.dev/docs
+verified: 2026-10-25 · https://moonrepo.dev/docs
 
 ### Slicing on one runner — optional
 why: shards run in sequence there, but each reports sooner, reruns alone, and runs in parallel automatically once a second runner joins. Keep per-job setup small with bounded caches, since every shard repeats checkout and install.
-verified: pending · https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
+verified: 2026-10-25 · https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
