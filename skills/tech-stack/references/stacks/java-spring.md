@@ -34,14 +34,14 @@ setting: for Boot's auto-configured `ThreadPoolTaskScheduler`, set `spring.task.
 why: five scheduled jobs in a Spring Boot backend shared one thread, so a slow job delayed the others; explicit capacity and bounded shutdown waiting avoid that configuration.
 verified: 2026-10-24 · https://docs.spring.io/spring-boot/reference/features/task-execution-and-scheduling.html · https://docs.spring.io/spring-boot/appendix/application-properties/index.html#application-properties.core.spring.task.scheduling.pool.size · https://docs.spring.io/spring-framework/reference/integration/scheduling.html#scheduling-annotation-support-scheduled
 
-This is a conservative project sizing rule, not a framework requirement. Revisit capacity and downstream limits whenever jobs are added; a test can count `@Scheduled` methods assigned to this scheduler and require the pool size to cover them (account for repeatable schedules and dynamic registrations separately). Boot's platform-thread scheduler defaults to one thread. With virtual threads enabled, Boot uses `SimpleAsyncTaskScheduler`, which ignores pooling properties; assess that scheduler separately.
+A sizing rule of ours, not a framework requirement; revisit it when jobs are added. With virtual threads, Boot uses `SimpleAsyncTaskScheduler`, which ignores pool settings.
 
 ### Spring Security account-status checks — default (over exceptions from user lookup)
 setting: return `UserDetails` from `loadUserByUsername` with accurate `isAccountNonLocked`, `isEnabled`, `isAccountNonExpired` and `isCredentialsNonExpired` flags. For custom pre-authentication rules, configure a `UserDetailsChecker` through `setPreAuthenticationChecks`; preserve the standard status checks when replacing that checker.
 why: throwing `LockedException` during lookup made a backend unwrap `InternalAuthenticationServiceException` and prevented its provider pre-check from running.
 verified: 2026-10-24 · https://github.com/spring-projects/spring-security/blob/6.5.x/core/src/main/java/org/springframework/security/authentication/dao/DaoAuthenticationProvider.java#L106-L128 · https://github.com/spring-projects/spring-security/blob/6.5.x/core/src/main/java/org/springframework/security/authentication/dao/AbstractUserDetailsAuthenticationProvider.java
 
-In Spring Security 6.5.x, `retrieveUser` rethrows `UsernameNotFoundException` and `InternalAuthenticationServiceException` and wraps other `Exception`s. Pre-checks run after retrieval, outside that wrapper: locked, disabled and expired accounts produce their status exceptions directly. Credential expiry is checked after credential validation. Map suspended/deleted states to flags according to the project's account policy; lookup should not throw account-status exceptions.
+In 6.5.x, pre-checks run after `retrieveUser`, outside its exception wrapper, so locked, disabled and expired accounts raise their own exceptions; credential expiry is checked after the password.
 
 Java and Kotlin entries are a starting list from QP's stack. Add settings
 from the first real project; do not invent them ahead of use.
