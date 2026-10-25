@@ -24,5 +24,4 @@ verified: 2026-10-20 · https://changesets.dev/guide/cli · https://docs.github.
 ## Learned
 - Not in the mise registry (2026-10-06): squawk, oasdiff, cargo-deny, cargo-machete, knip. Use `github:sbdchd/squawk`, `github:oasdiff/oasdiff`, `cargo:cargo-deny`, `cargo:cargo-machete`; knip is an npm dev dependency.
 - Registry tools resolve through `aqua:` (lefthook, gitleaks, actionlint, shellcheck, hadolint, osv-scanner, zizmor, spectral).
-- One project's `./scripts/verify` ran the MLS journey locally while CI did not; a local-only lane hides regressions.
 - macOS has no `timeout`; use `perl -e 'alarm N; exec @ARGV'` (replace N with seconds) or a mise-pinned tool. Check pipelines use `set -o pipefail`; a command that cannot run is a failed check.

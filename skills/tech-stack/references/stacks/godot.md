@@ -1,7 +1,7 @@
 # Godot (GDScript)
 
 ### Godot via mise — required
-setting: `godot = "4.5.1-stable"`; checked on local macOS and `ubuntu-latest` CI in Tomiwa
+setting: `godot = "4.5.1-stable"`; checked on macOS and `ubuntu-latest` CI
 why: pin the same engine locally and in CI
 verified: 2026-10-07 · https://godotengine.org/download/archive/4.5.1-stable/
 
@@ -22,7 +22,7 @@ verified: 2026-10-07 · https://docs.godotengine.org/en/4.5/tutorials/editor/com
 
 ### Rendered visual proof — required for visual changes
 setting: capture with `--write-movie` and `--fixed-fps`; inspect the rendered frames
-why: headless checks missed particle and camera defects in Tomiwa
+why: headless checks missed particle and camera defects in one project
 verified: 2026-10-07 · https://docs.godotengine.org/en/4.5/tutorials/animation/creating_movies.html
 
 ### Pixel-art display — default
@@ -34,6 +34,3 @@ verified: 2026-10-07 · https://docs.godotengine.org/en/4.5/tutorials/rendering/
 setting: bind F11, Alt+Enter, and Cmd+Ctrl+F; macOS takes F11 for a system action
 why: give macOS players a fullscreen key the OS does not take
 verified: pending · https://docs.godotengine.org/en/4.5/tutorials/inputs/inputevent.html
-
-## Reference implementation
-Private `quantipixels/tomiwa`: `mise.toml`, `_scripts/check.py`, `lefthook.yml`, `.github/workflows/quality.yml`. Hooks and CI call `mise run check`; read these files before copying settings.
