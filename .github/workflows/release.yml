@@ -1,35 +1,53 @@
-name: Version
+name: Release
 on:
-  push:
-    branches: [ori]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Show the planned version and changelog without committing
+        type: boolean
+        default: true
 permissions: {}
 concurrency:
-  group: version-${{ github.ref }}
-  cancel-in-progress: true
+  group: release
+  cancel-in-progress: false
 jobs:
-  version:
+  release:
+    if: github.ref == 'refs/heads/ori'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
       contents: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
-          fetch-depth: 0
-          # Changesets pushes its version branch; credentials are removed below.
-          persist-credentials: true # zizmor: ignore[artipacked] -- needed to push the version PR
-          token: ${{ secrets.CHANGESETS_TOKEN || secrets.GITHUB_TOKEN }}
+          # The version commit is pushed to ori; credentials are removed below.
+          persist-credentials: true # zizmor: ignore[artipacked] -- needed to push the version commit
       - uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db # v3
       - run: mise run release:deps
-      - uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
-        with:
-          version: mise run release:version
-          createGithubReleases: false
-          commit: "chore: version tech-stack"
-          title: "chore: version tech-stack"
+      - run: mise run release:version
+      - name: Commit the version, or report the plan
         env:
-          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN || secrets.GITHUB_TOKEN }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          if git diff --quiet; then
+            echo "No changesets to release." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          version=$(node -p 'require("./package.json").version')
+          {
+            echo "## tech-stack $version"
+            git diff -U0 -- CHANGELOG.md | sed -n 's/^+\([^+]\)/\1/p'
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "Dry run: nothing committed." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .changeset CHANGELOG.md package.json package-lock.json .claude-plugin .codex-plugin
+          git commit -m "chore: release v$version"
+          # Fails if ori moved since checkout; rerun the release.
+          git push origin HEAD:ori
       - name: Remove runner credentials
         if: always()
         run: |
