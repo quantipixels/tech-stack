@@ -3,7 +3,7 @@
 ## Coverage and complexity
 - No coverage threshold (decided 2026-10-06).
 - Complexity per function: warn above 10, fail above 15 on new or changed code (Credo, PMD, detekt, Oxlint `complexity`); fix failures by separating pure decision logic from I/O, not by chopping code into arbitrary tiny functions.
-- Mutation testing is a hand run on a few risky modules (auth, admission), not a CI step: it is slow, and a 2-core runner cannot afford it.
+- Mutation testing is a hand run on a few risky modules (auth, admission), not a CI step: it is too slow for every PR.
 
 ## Baselines for old code
 - Capture only existing violations; new and changed code passes without suppression.

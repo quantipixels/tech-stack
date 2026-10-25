@@ -19,9 +19,7 @@ verified: 2026-10-23 · https://github.com/mattpocock/dictionary-of-ai-coding/bl
 - Remove a superseded authentication path in the same release, or put it behind a default-off switch with an end date. A migration that marks rows "legacy" also decides how they expire.
 - Every security reset reaches every session kind.
 - Each feature that can cause harm has its own switch and a separate write action; a transport-wide switch is not a feature switch.
-- Check authority again after any blocking wait (see `data.md`).
 - Take the client IP from a trusted-proxy plug before a rate limit or audit uses it.
-- Write another module's rows through its owner function, inside the caller's transaction.
 
 ## Records every repo keeps
 - Agent instruction files follow [the agent instructions default](agents.md#agent-instructions--default-over-a-claudemd-import-with-claude-only-lines).
