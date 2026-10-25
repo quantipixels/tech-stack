@@ -22,7 +22,7 @@ why: types do not exist at runtime; hand-written decoders drift from contracts
 verified: 2026-10-06 · https://zod.dev
 
 ### shadcn/ui on Base UI — default UI
-setting: shadcn components with the Base UI primitives; generated components stay in `src/components/ui`
+setting: shadcn components with the Base UI primitives; generated components stay in `src/components/ui`, or in `packages/ui` when apps share them (see the layout)
 why: preferred; components are owned source, not a dependency
 verified: 2026-10-06 · https://ui.shadcn.com · https://base-ui.com
 
@@ -61,7 +61,7 @@ why: ships with Vite+ alongside Oxlint; one toolchain
 verified: 2026-10-06 · https://viteplus.dev/guide/
 
 ### @shadcn/lint — required where Tailwind design-system rules exist
-setting: runs as an Oxlint plugin (Oxlint ≥ 1.80); turn `shadcn/no-restyle` off for `src/components/ui/**`
+setting: runs as an Oxlint plugin (Oxlint ≥ 1.80); turn `shadcn/no-restyle` off for the folder that owns the components (`src/components/ui/**`, or the shared package's `src/components/**`)
 why: agent-readable fixes that point to the project's own variants and theme
 verified: 2026-10-06 · https://github.com/shadcn-ui/lint
 
