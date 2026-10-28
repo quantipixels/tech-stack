@@ -37,3 +37,8 @@ verified: 2026-10-23 · https://sans-io.readthedocs.io/how-to-sans-io.html
 setting: Swift and Kotlin call the generated bindings directly; our web build uses `wasm-bindgen`; expose an explicit cancel call, since UniFFI does not directly support cancelling async calls
 why: Swift and Kotlin use UniFFI's maintained generators directly, without adding a third-party Kotlin Multiplatform generator and bridge
 verified: 2026-10-23 · https://mozilla.github.io/uniffi-rs/latest/futures.html
+
+### Dev profile debug info — default (over Cargo's full debug info)
+setting: `[profile.dev] debug = "line-tables-only"` and `[profile.dev.package."*"] debug = false` in `Cargo.toml`
+why: full debug info adds much of a dev build's size and link time; line tables keep file and line numbers in our backtraces, and dependencies rarely need stepping through; a project that debugs with lldb or gdb keeps the default
+verified: 2026-10-28 · https://doc.rust-lang.org/cargo/reference/profiles.html#debug
