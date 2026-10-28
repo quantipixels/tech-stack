@@ -2,7 +2,7 @@
 """Keep the tech-stack skill lean: line budgets and entry shape. Exit 1 on a violation."""
 import datetime, pathlib, re, sys
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent / "skills" / "tech-stack"
+ROOT = pathlib.Path(__file__).resolve().parent.parent / "plugin" / "skills" / "tech-stack"
 BUDGETS = {"SKILL.md": 80, "stacks": 80, "practices": 40, "layouts": 40}
 STATUS = re.compile(r"^### .+ — (required|default|optional|rejected)\b")
 errors, pending = [], 0

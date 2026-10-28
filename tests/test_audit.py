@@ -6,7 +6,7 @@ import sys
 import tempfile
 import unittest
 
-AUDIT = Path(__file__).resolve().parents[1] / "skills/tech-stack/scripts/audit.py"
+AUDIT = Path(__file__).resolve().parents[1] / "plugin/skills/tech-stack/scripts/audit.py"
 
 
 class AuditTests(unittest.TestCase):
