@@ -3,7 +3,7 @@
 QP's preferred frameworks, libraries, tools, code layouts and architecture defaults, packaged as an agent skill for Claude Code and Codex.
 Projects start from these choices instead of re-deciding them, and deviate when a real need justifies it.
 
-- Skill: [`skills/tech-stack/SKILL.md`](skills/tech-stack/SKILL.md)
+- Skill: [`plugin/skills/tech-stack/SKILL.md`](plugin/skills/tech-stack/SKILL.md)
 - Stacks: TypeScript/React, TypeScript servers (Effect), Elixir/Phoenix, Rust, Java and Kotlin with Spring Boot, Godot/GDScript
 - Practices: toolchain (mise), hooks (lefthook), CI, security, data, contracts, testing, architecture, agent definitions and routing
 - Layouts: repository, TypeScript/React app, Elixir/Phoenix, Spring
@@ -27,7 +27,7 @@ Stack and tooling lessons captured by the workflow skills reach tech-stack's mai
 
 ```sh
 python3 scripts/lint.py                                  # entry shape and line budgets
-python3 skills/tech-stack/scripts/audit.py <repo>        # how a repo differs from the skill
+python3 plugin/skills/tech-stack/scripts/audit.py <repo>        # how a repo differs from the skill
 ```
 
 See [AGENTS.md](AGENTS.md) for reference authoring rules.
@@ -37,5 +37,5 @@ See [AGENTS.md](AGENTS.md) for reference authoring rules.
 Run `mise install` and `npm ci` to install the pinned tools, Changesets and hooks.
 Each change carries a changeset; merges to `ori` update the version PR, whose merge generates `CHANGELOG.md` and bumps both host manifests.
 Set `CHANGESETS_TOKEN` to let the version PR trigger checks; with `GITHUB_TOKEN`, a maintainer must trigger/approve its checks as needed.
-The agent workflow marketplace lists this independent repository for both hosts; no copied skill or extra publishing step is needed.
+The agent workflow marketplace lists this repository's `plugin/` folder for both hosts; no copied skill or extra publishing step is needed.
 Host caches refresh only after the version PR merges and users update their plugins.
