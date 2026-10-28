@@ -44,7 +44,7 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .changeset CHANGELOG.md package.json package-lock.json .claude-plugin .codex-plugin
+          git add .changeset CHANGELOG.md package.json package-lock.json plugin/.claude-plugin plugin/.codex-plugin
           git commit -m "chore: release v$version"
           # Fails if ori moved since checkout; rerun the release.
           git push origin HEAD:ori
