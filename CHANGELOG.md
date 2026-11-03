@@ -1,5 +1,15 @@
 # tech-stack
 
+## 0.5.0
+
+### Minor Changes
+
+- adedfd3: File length limit: use the stack linter's file-length rule with a warning before the error, a CI check where there is none (Rust), and measure growth against the base commit instead of a checked-in baseline.
+
+### Patch Changes
+
+- dc07b87: Runner snapshots become optional: measure time from push to result, since starting a VM from a large snapshot can cost more than the setup it saves.
+
 ## 0.4.0
 
 ### Minor Changes
