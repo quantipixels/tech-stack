@@ -1,5 +1,25 @@
 # tech-stack
 
+## 0.4.0
+
+### Minor Changes
+
+- ccb3456: New CI caches page: save shared caches only from the default branch, measure restore time against cold work, and prefer a runner image or snapshot over large downloaded caches. The Vite+ task cache moves there and now saves only from default-branch runs. PR checks on runners that limit job starts keep `cancel-in-progress: false`.
+- 1c6600a: Add source-checked defaults for suppressing GitLab draft MR pipelines, sizing and draining Spring Boot schedulers, and keeping Spring Security account-status checks out of user lookup. Clarify that `ci.skip` does not suppress merge request pipelines.
+- f7743a6: Add an opt-in option to run slow lanes locally and at release instead of on every PR.
+- b7113f3: State the tool manifest, shared task entry points and hook manager as tool-neutral rules, with mise and lefthook as the defaults. Every CI check exists as a task, and where it runs is set per lane. Mark the slow-lanes sources verified.
+
+### Patch Changes
+
+- 99aaa4f: CI caches: PR jobs also turn off setup-node's automatic npm cache, snapshot stores stay out of `~/.cache`, and the non-cancelling Boat mode states its draft trade-off.
+- c8ce1ee: Remove machine upkeep (runner host cleanup, Docker pruning, runner temp folders), duplicated CI rules and lessons, and project-specific references.
+- 0c89d2d: Treat a dependency's low used share as a warning to explain, not a veto: compare the existing code, a smaller alternative and the whole dependency for capability, upkeep, licence and footprint, unless the owner made it a hard limit.
+- e05f005: Installs now carry only the skill and its manifests: the plugin lives in `plugin/`, so the repository's release tooling, tests and CI files no longer ship, and Claude Code no longer installs `node_modules` with it.
+- dfeb549: Rust dev builds default to line tables for our code and no debug info for dependencies.
+- 474ab60: Add the layout for a shared shadcn UI package used by several apps. It's a source package whose files import each other by package name, never `@/`. Lint keeps it presentational: no API, server-state, router or store imports and no network globals. Apps' lint recognises its components by import prefix.
+- f624022: Add two lessons: tests must not leave process-wide settings changed for later tests, and a CI deploy to AWS ECS waits on its own deployment's rollout state instead of `aws ecs wait services-stable`.
+- a98cf78: Verify four CI option sources, and replace the flaky-test quarantine source with one that describes quarantine and its limits.
+
 ## 0.3.0
 
 ### Minor Changes
