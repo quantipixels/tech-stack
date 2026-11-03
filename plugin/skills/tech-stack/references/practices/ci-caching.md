@@ -12,9 +12,9 @@ setting: time the restore step and the step it feeds separately (`gh run view <i
 why: on per-job VM runners outside GitHub's network, restoring a 704 MiB Rust cache took 69–182 s across three PR runs (about 4–10 MB/s), while the Clippy step it fed took 26–36 s (job step timings from the jobs API). A cache that costs more than the work it skips should be shrunk, moved into the runner image, or removed.
 verified: 2026-11-03 · https://docs.github.com/en/rest/actions/workflow-jobs
 
-### Runner image or snapshot over large downloaded caches — default where the runner supports one
+### Runner image or snapshot instead of large downloaded caches — optional
 setting: put the pinned toolchain, system packages, the package manager's store and a warm build directory into the runner's image or snapshot, in directories the provider keeps: Boat snapshots leave out `~/.cache`, so move a store found there (for example with `npm_config_cache` or `XDG_CACHE_HOME`). Keep the build directory outside the checkout (for example `CARGO_TARGET_DIR`) so checkout cannot wipe it. Refresh the image when a lockfile, toolchain pin, package list or build command changes. On Boat, select it with `runs-on: boat/from=<snapshot>`.
-why: whatever the image keeps is already on the VM's disk, so it is not downloaded again; container images from a registry are still pulled at each start. An older image still helps, because the build redoes only what changed. Fork PRs keep hosted runners and their caches. Measure the first runs before claiming a saving.
+why: whatever the image keeps is already on the VM's disk, so it is not downloaded again; container images from a registry are still pulled at each start. Starting a VM from a snapshot takes time of its own, which can cancel the setup it saves, so compare time from push to result, not job time alone, over repeated runs. Build the snapshot at the path CI checks out to; a different checkout path can make dependencies rebuild. Fork PRs keep hosted runners and their caches.
 verified: 2026-11-03 · https://docs.boat.dev/ci.md · https://docs.boat.dev/snapshots/whats-saved.md
 
 ### System packages — default
