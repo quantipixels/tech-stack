@@ -17,7 +17,7 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 - Every checked-in generated artifact (WASM, generated clients, generated validators) has a freshness job: regenerate, then `git diff --exit-code`.
 - When output depends on the build host (Rust `wasm32` bytes differ between aarch64 and x86_64, [cargo#8140](https://github.com/rust-lang/cargo/issues/8140)), byte-compare fails. Check in a stamp holding a hash of the inputs (sources, lockfile, toolchain, build script) and of the output instead; the job fails when either hash no longer matches, and the artifact is rebuilt only when inputs change.
 - Size matrices to real runner capacity: parallel jobs on one runner queue behind each other, so one concurrent job can finish sooner.
-- CI caches only its own runs (keyed by lockfiles and `mise.toml`); local machines never write to a shared cache, since their results are not reproducible proof.
+- CI caches only its own runs (keyed by lockfiles and `mise.toml`); local machines never write to a shared cache, since their results are not reproducible proof Where caches save and when they are worth keeping: [CI caches](ci-caching.md).
 - Use `fetch-depth: 1` except in jobs that need history (versioning, releases, base-ref diffs), and sparse checkout for jobs that read a few paths. A job that needs history but only names (`merge-base`, `diff --name-only`, `log`) can add `filter: blob:none`. Never add it where the job reads old file contents (`git show`, content diffs, history secret scans) under `persist-credentials: false`: in a private repo, git fetches those blobs on demand with no credentials and the job fails.
 - No `continue-on-error` on a merge-gating step: a step that fails under it still reports success, so the check has not passed.
 

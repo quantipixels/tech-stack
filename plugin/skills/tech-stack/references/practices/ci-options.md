@@ -4,12 +4,8 @@ For splitting jobs, selecting tests, caching, sharding, a merge queue or provena
 
 - Read the current docs of the tools already in the lockfile before adding a tool or script; they often already do it. Prefer a tool's option over a hand-written selector, and record which option you checked.
 - Measure first, from `gh run view <id> --json jobs`. Keep queue time apart from job time, and claim a speed-up only from job times on the project's own runners. Measure again afterwards, once with a busy runner. Before changing tests, lanes or runners, split runner time by how runs ended (green, failed, replaced by a newer push, other cancels and timeouts) and sort the failed jobs by cause (code defect, timing flake, leftover state or storage, capacity, external): the fix may be host upkeep (see Runners in `ci.md`), not test changes.
+- For caches (where they save, restore cost, runner images, Vite+ task cache), see [CI caches](ci-caching.md).
 - To run less on a PR, see [change selection](ci-change-selection.md) (one selector, native selection, Elixir shards, graph tools); it replaces any per-package or path-filter setup.
-
-### Vite+ task cache — optional
-setting: tasks under `run.tasks` in `vite.config.ts` run by `vp run`; cache `node_modules/.vite/task-cache` after install, key `vite-task-<os>-<arch>-<run_id>-<attempt>`, restore prefix `vite-task-<os>-<arch>-`
-why: unchanged tasks replay instead of rerunning. `vp run --filter` selects by name, directory or glob but has no "changed since" filter; pair it with pnpm's `--filter "...[<base>]"` (see change selection). Measure that moving the cache saves time.
-verified: 2026-10-18 · https://viteplus.dev/guide/run · https://viteplus.dev/guide/github-actions-cache
 
 ### File-level test map — optional, last resort
 why: helps only when one package's tests split by module; end-to-end suites that boot the whole app select almost everything. Needs a completeness check for unmapped sources, fall-back to all on shared, unmapped, missing or uncertain input, an always-run cross-cutting set, and full default-branch runs. Print the selection reason; it is a heuristic, and the default-branch run is the gate.
