@@ -6,6 +6,11 @@ setting: AX: an agent works without reading everything, through fast determinist
 why: agents do most of the building and relearn the code every session, while people still navigate and review it; frontends also answer to their users
 verified: 2026-10-23 · https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/AX.md · https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/DX.md
 
+### File length limit — default
+setting: turn on the stack linter's file-length rule where it has one, with an error limit and an earlier warning; where it has none, use a small CI check. Measure growth of files already over the limit against the PR's base commit instead of checked-in counts. TypeScript: Oxlint/ESLint `max-lines` (off by default; 300 when enabled with no `max`; one severity per rule, so the warning needs a second rule). Rust: neither Clippy nor rustfmt limits file length; Clippy's `too_many_lines` limits function bodies (100 lines by default, pedantic).
+why: long files cost agents and reviewers context. A checked-in size baseline must be edited by every PR that shrinks a listed file, so PRs that change nearby entries can conflict; comparing with the base commit keeps the same limit without a shared file.
+verified: 2026-11-03 · https://oxc.rs/docs/guide/usage/linter/rules/eslint/max-lines · https://eslint.org/docs/latest/rules/max-lines · https://doc.rust-lang.org/nightly/clippy/lint_configuration.html#too-many-lines-threshold
+
 ## Starting shape
 - One modular monolith per product (over microservices) until a measured need splits it.
 - PostgreSQL is the durable authority; durable jobs in the database (Oban for Elixir); realtime only wakes clients, it does not carry truth.
