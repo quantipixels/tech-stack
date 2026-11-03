@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: Show the planned version and changelog without committing
+        description: Only show the planned version and changelog; tick to skip the release
         type: boolean
-        default: true
+        default: false
 permissions: {}
 concurrency:
   group: release
