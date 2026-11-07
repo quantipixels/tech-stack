@@ -41,16 +41,16 @@ def active(path):
 
 # Records
 if not (repo / "AGENTS.md").is_file():
-    gap("records", "missing AGENTS.md", "practices/architecture.md")
+    gap("records", "missing AGENTS.md", "the agent workflow's agent-file conventions")
 readme = first("README.md", "README.markdown", "README")
 non_goals = readme and re.search(
     r"^(?:#{1,6}[ \t]+Non-goals(?:[ \t]+#+)?[ \t]*|Non-goals[ \t]*\n[=-]+[ \t]*)$",
     readme.read_text(errors="ignore"), re.M | re.I)
 if not (repo / ".nongoals").is_file() and not non_goals:
-    gap("records", "missing README Non-goals section (or existing .nongoals)", "practices/architecture.md")
+    gap("records", "missing README Non-goals section (or existing .nongoals)", "the agent workflow's records")
 claude = repo / "CLAUDE.md"
 if not claude.is_symlink() or claude.resolve() != (repo / "AGENTS.md").resolve() or not claude.is_file():
-    gap("records", "CLAUDE.md should symlink to AGENTS.md; run ln -sf AGENTS.md CLAUDE.md", "practices/agents.md")
+    gap("records", "CLAUDE.md should symlink to AGENTS.md; run ln -sf AGENTS.md CLAUDE.md", "the agent workflow's agent-file conventions")
 
 # Agent definitions must survive both repository and global ignore patterns.
 if subprocess.run(["git", "-C", str(repo), "rev-parse", "--is-inside-work-tree"],
@@ -64,9 +64,9 @@ if subprocess.run(["git", "-C", str(repo), "rev-parse", "--is-inside-work-tree"]
     ignored = subprocess.run(["git", "-C", str(repo), "check-ignore", "--no-index", "--", *paths],
                              env=git_env, capture_output=True, text=True)
     for path in ignored.stdout.splitlines():
-        gap("agents", f"{path} is ignored", "layouts/repository.md")
+        gap("agents", f"{path} is ignored", "the agent workflow's agent-file conventions")
     if ignored.returncode not in (0, 1):
-        gap("agents", "git check-ignore failed: " + ignored.stderr.strip(), "layouts/repository.md")
+        gap("agents", "git check-ignore failed: " + ignored.stderr.strip(), "the agent workflow's agent-file conventions")
 
 # Toolchain, hooks, security scans
 mise = first("mise.toml", ".mise.toml", ".config/mise.toml")

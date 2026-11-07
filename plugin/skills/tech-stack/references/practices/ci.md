@@ -1,6 +1,6 @@
 # CI (GitHub Actions)
 
-Before designing gates, check the plan: GitHub Free private repos cannot require checks (see Learned), so CI there is advisory. Size gates and their self-tests to what the plan can enforce; the agent workflow's method for deciding whether a gate is worth adding settles whether it earns its cost.
+Before designing gates, check the plan: GitHub Free private repos cannot require checks (see Learned), so CI there is advisory. Size gates and their self-tests to what the plan can enforce. Whether a gate earns its cost is the agent workflow's decision.
 ### actionlint — required
 verified: 2026-10-06 · https://github.com/rhysd/actionlint
 ### zizmor — required
@@ -13,7 +13,7 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 - For PR checks, follow [PR run efficiency](ci-pr-checks.md): cancel superseded runs and skip check jobs while the PR is a draft. The merge-gating job reports on every non-draft `pull_request` head.
 - Filter expensive jobs by path inside an unfiltered PR workflow; add an aggregator with `if: always() && github.event.pull_request.draft != true` that succeeds for intentional skips and fails for failures or cancellations.
 - With CI limited to PRs and default-branch pushes, branch pushes without a ready PR get no checks. Open a draft PR early for tracking; mark it ready when checks should begin, or run local checks while drafting.
-- Select slow lanes using the agent workflow's CI-depth method. Before splitting jobs, selecting tests, caching or sharding, research and measure, then choose from the optional [CI options](ci-options.md).
+- Select slow lanes using the agent workflow's check placement. Before splitting jobs, selecting tests, caching or sharding, research and measure, then choose from the optional [CI options](ci-options.md).
 - Every checked-in generated artifact (WASM, generated clients, generated validators) has a freshness job: regenerate, then `git diff --exit-code`.
 - When output depends on the build host (Rust `wasm32` bytes differ between aarch64 and x86_64, [cargo#8140](https://github.com/rust-lang/cargo/issues/8140)), byte-compare fails. Check in a stamp holding a hash of the inputs (sources, lockfile, toolchain, build script) and of the output instead; the job fails when either hash no longer matches, and the artifact is rebuilt only when inputs change.
 - Size matrices to real runner capacity: parallel jobs on one runner queue behind each other, so one concurrent job can finish sooner.
@@ -27,7 +27,7 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 - Pick self-hosted runners by label, never by runner name: names can repeat across scopes. An organization's runners serve only its repositories; a personal repository needs its own runner or a move into the organization. When hosted minutes are blocked, follow the CI-unavailable rule in `hooks.md` rather than using a runner too small for the jobs.
 
 ## Base-ref gates
-The agent workflow's gate-decision method owns whether to add a gate and when it retires, and its lesson capture hands findings to that method. Build an accepted gate as follows, running from the base on `pull_request_target`.
+The agent workflow's gate-decision method owns whether to add a gate and when it retires. Build an accepted gate as follows, running from the base on `pull_request_target`.
 - Read the head only as git data (`git cat-file`, `git diff`, `git ls-tree`); parse text, never eval. Never check it out or run its `mix`, `npm`, `make`, hooks or scripts, including a head copy of the gate.
 - Exceptions and baselines come only from base files, each with file, identity and reason; ignore entries without a reason or present only in the head. Tool versions come from the base lockfile.
 - `permissions: {}` with `contents: read` per job, `persist-credentials: false`, actions pinned by SHA. Fetch `refs/pull/N/head` as objects and check it equals the event's head SHA.

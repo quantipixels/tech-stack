@@ -5,8 +5,8 @@ Projects may change these defaults for a recorded reason.
 
 ## Focus
 - tech-stack recommends what a project uses: its tools, dependencies, layout, checks and CI.
-- It does not manage machines or dev resources. Shared local servers, per-app logins, `*.localhost` names and build reuse across worktrees belong to [local-services](https://github.com/quantipixels/local-services); point to it, never restate it.
-- How agents work, and whether a gate earns its cost, belong to the agent workflow skills it is used with. tech-stack owns only the mechanics.
+- It does not manage machines or dev resources. Shared local servers, per-app logins, `*.localhost` names and build reuse across worktrees belong to the agent workflow's local-services skill; point to it, never restate it.
+- How agents work, record kinds and locations, engineering principles, and whether a gate earns its cost belong to the agent workflow. tech-stack owns the tool that enforces a principle and the provider mechanics.
 - Leave out what tools already do by default, such as machine-wide caches. A project-level choice that differs (pnpm over npm, `org.gradle.caching=true`) belongs here.
 - Ship a script only when a step changes state, deletes data, must be exact every time, or works through a lot of data. Steps an agent could type itself go in the references as `bash` templates.
 

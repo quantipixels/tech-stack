@@ -23,6 +23,5 @@ verified: 2026-10-06 · https://docs.semgrep.dev/supported-languages
 
 ## Rules
 - Containers run as a non-root `USER`; base images are pinned by digest; image runtime versions equal `mise.toml`.
-- A required production setting raises when missing; no placeholder fallback.
-- A fail-closed catch-all still logs and emits telemetry, without params or credentials.
 - Suppress a finding per line, with a reason; no file-wide disables.
+- Tool-free principles for this area live in the agent workflow's engineering principles and test-design guidance.

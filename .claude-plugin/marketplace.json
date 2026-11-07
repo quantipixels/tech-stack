@@ -1,0 +1,14 @@
+{
+  "name": "tech-stack",
+  "owner": {
+    "name": "QP",
+    "url": "https://github.com/quantipixels"
+  },
+  "description": "QP's preferred stacks, tools, project layouts and architecture defaults",
+  "plugins": [
+    {
+      "name": "tech-stack",
+      "source": "./plugin"
+    }
+  ]
+}
