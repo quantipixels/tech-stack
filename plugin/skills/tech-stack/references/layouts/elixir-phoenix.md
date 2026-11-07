@@ -16,7 +16,7 @@ apps/backend/
 - `<app>_web` calls context public APIs only; it holds no domain rule and writes no row.
 - A context exports its public API through Boundary; its schemas stay private.
 - Cross-context work in one transaction calls the other context's function (for example `Notifications.record_intent/2`), never builds its rows.
-- One module owns each command's transaction and lock order; split long commands into pure decisions and persistence, keeping that owner.
 - Shared command plumbing (request-ID and envelope parsing) lives in one module, not copied per lifecycle.
 - Oban workers live in the context that owns the job.
 - Split a context module when it passes about 1,500 lines or mixes unrelated workflows; split by caller outcome, not by layer.
+- Transaction ownership and lock order are the agent workflow's engineering principles; one module owns each command's transaction.
