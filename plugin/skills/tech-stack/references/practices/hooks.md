@@ -8,17 +8,17 @@ verified: 2026-10-15 · https://github.com/evilmartians/lefthook · https://vite
 | Hook | Runs |
 | --- | --- |
 | `pre-commit` | the stack's formatter and linter on staged files; seconds |
-| `pre-push` | `mise run check`: the project's fast core (format, lint, types, unit tests), which CI also runs |
+| `pre-push` | `mise run check`: the project's fast core (format, lint, types, unit tests), once per tree; CI verifies its evidence ([local evidence](local-evidence.md)) |
 | `commit-msg` | the repo's established commit message pattern; Conventional Commits when it has none |
 | `post-merge`, `post-checkout` | install dependencies when a lockfile changed |
 ## Local gate
-- Failures in the project's own code surface before push; CI confirms on a clean runner and does the rest. When CI is unavailable (minutes blocked, runners down), run CI's own entry points locally (`mise run check:full`), never a hand-copied job list; keep path selection in one mise task both use, and record in the PR that CI did not run.
+- Failures in the project's own code surface before push; for same-repository PRs CI checks the run's evidence rather than repeating it ([local evidence](local-evidence.md)), and does the rest. When CI is unavailable (minutes blocked, runners down), run CI's own entry points locally (`mise run check:full`), never a hand-copied job list; keep path selection in one mise task both use, and record in the PR that CI did not run.
 - The agent workflow's check placement decides the kinds of check; this table is where this stack's tools run:
 
 | Kind of check | Runs in |
 | --- | --- |
 | Formatting and linting of the project's code | pre-commit (staged files) and `check` |
-| Type or compile checks, unit tests | `check` (pre-push and CI) |
+| Type or compile checks, unit tests | `check` (pre-push; in CI for fork PRs and the release) |
 | Tests that need a service (database, queue) | `check`; locally the machine's shared services, in CI the workflow's service containers |
 | Secret scanning | CI and the host's secret scanning |
 | Dependency, licence and vulnerability scanning | CI |
@@ -28,9 +28,9 @@ verified: 2026-10-15 · https://github.com/evilmartians/lefthook · https://vite
 | Base-ref gates, OS matrices, checks needing CI-only secrets | CI |
 - In an existing repo, hooks call its existing check entry point; adding tools from this skill is a separate change the owner asks for.
 - `check` proves the code passes; proving the change works on the running product is verification, done by the agent after the build, not in hooks.
-- No fixed time budget: keep `check` fast with parallel tasks and tool caches. Never skip a run because an earlier one passed.
+- No fixed time budget: keep `check` fast with parallel tasks and tool caches. Reuse a passing run only for the identical tree and toolchain, never because a different tree passed.
 - Locally, tests that need a service use the agent workflow's local-services skill when it is installed: register the app; never start a second server or run `docker compose down -v`, which deletes every project's data. CI keeps its own service containers.
-- The PR description records the local gate: command, result and time.
+- The PR description records the local gate (command, result, time, tree) automatically, through the evidence block.
 
 ## Rules
 - Hooks call mise tasks or tools pinned in `mise.toml`; never a tool from the global PATH.
