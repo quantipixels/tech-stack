@@ -17,7 +17,4 @@ verified: 2026-10-06 · https://squawkhq.com
 ## Rules
 - Migrations are forward-only. Never reset development data to make a check pass; drills use disposable databases.
 - Build an index on a populated table `concurrently`, in its own migration.
-- Check authority again after every blocking lock wait, with database time, before disclosure or write. Only a concurrency drill proves this.
-- A limit bounds the work, not only the response: filter and authorize in the query before pagination.
-- One transaction owner per command. Another context's rows are written only through its owner's function, in the caller's transaction (outbox).
-- Durable jobs and their outbox rows commit in the same transaction as the change they describe.
+- Tool-free principles for this area live in the agent workflow's engineering principles and test-design guidance.

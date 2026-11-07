@@ -11,7 +11,7 @@ Deviate when a project's real need makes another choice better, and record why i
 These entries are a floor, not the whole list. For each platform a project uses (a language, framework, host, store or CI service), also take the steps its own maintainers publish as standard, after checking their current docs. When planning, or when a choice is still open, research the options and present the user with a recommendation and alternatives instead of deciding silently. A low used share of a dependency is a warning to explain, not a veto unless the owner made it a hard limit. Compare the existing implementation, a smaller alternative and the whole dependency for capability, upkeep, licence and footprint; name unknowns.
 
 Precedence: the project's active instructions and records win over this skill; the user's explicit choice wins over both.
-Tech-stack owns stack, tooling, code layout and architecture choices; how agents work belongs to the agent workflow skills it is used with.
+Tech-stack owns what a project uses: tools, dependencies, per-stack layouts, the tool that enforces each principle, and CI provider mechanics. The agent workflow owns how agents work, its engineering principles and test-design guidance, records, and the machine's shared services (its local-services skill).
 
 ## Read only what the task needs
 
@@ -20,7 +20,6 @@ Tech-stack owns stack, tooling, code layout and architecture choices; how agents
 | Start or restructure a project | `references/layouts/<stack>.md`, `references/practices/architecture.md`, `references/practices/toolchain.md` |
 | Choose a framework, library or dependency | `references/stacks/<stack>.md` |
 | Set up or fix checks, linters, formatters | `references/stacks/<stack>.md`, `references/practices/toolchain.md` |
-| Agent definitions and routing | `references/practices/agents.md` |
 | Git hooks | `references/practices/hooks.md` |
 | CI | `references/practices/ci.md` |
 | Deploys from CI (AWS ECS) | `references/practices/deploy.md` |
