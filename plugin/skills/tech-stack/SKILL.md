@@ -22,6 +22,7 @@ Tech-stack owns what a project uses: tools, dependencies, per-stack layouts, the
 | Set up or fix checks, linters, formatters | `references/stacks/<stack>.md`, `references/practices/toolchain.md` |
 | Git hooks | `references/practices/hooks.md` |
 | CI | `references/practices/ci.md` |
+| Where fast checks run, PR evidence of local runs | `references/practices/local-evidence.md` |
 | Deploys from CI (AWS ECS) | `references/practices/deploy.md` |
 | Security scanning, containers, secrets | `references/practices/security.md` |
 | An app with child users (stores, SDKs, push, age data) | `references/practices/child-users.md` |

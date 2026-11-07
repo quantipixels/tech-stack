@@ -8,7 +8,7 @@ why: finds injection, unpinned actions and excess permissions that actionlint do
 verified: 2026-10-06 · https://docs.zizmor.sh
 
 ## Rules
-- Jobs call the shared tasks only (`mise run check`, `mise run check:full`); install tools from the pinned manifest (the mise action by default).
+- Jobs call the shared tasks only (`mise run check`, `mise run check:full`); install tools from the pinned manifest (the mise action by default). Same-repository PRs verify `check`'s evidence instead of rerunning it: [local evidence](local-evidence.md).
 - Pin every action by commit SHA; set `permissions:` to the minimum per job; `persist-credentials: false` on checkout.
 - For PR checks, follow [PR run efficiency](ci-pr-checks.md): cancel superseded runs and skip check jobs while the PR is a draft. The merge-gating job reports on every non-draft `pull_request` head.
 - Filter expensive jobs by path inside an unfiltered PR workflow; add an aggregator with `if: always() && github.event.pull_request.draft != true` that succeeds for intentional skips and fails for failures or cancellations.
@@ -17,7 +17,7 @@ verified: 2026-10-06 · https://docs.zizmor.sh
 - Every checked-in generated artifact (WASM, generated clients, generated validators) has a freshness job: regenerate, then `git diff --exit-code`.
 - When output depends on the build host (Rust `wasm32` bytes differ between aarch64 and x86_64, [cargo#8140](https://github.com/rust-lang/cargo/issues/8140)), byte-compare fails. Check in a stamp holding a hash of the inputs (sources, lockfile, toolchain, build script) and of the output instead; the job fails when either hash no longer matches, and the artifact is rebuilt only when inputs change.
 - Size matrices to real runner capacity: parallel jobs on one runner queue behind each other, so one concurrent job can finish sooner.
-- CI caches only its own runs (keyed by lockfiles and `mise.toml`); local machines never write to a shared cache, since their results are not reproducible proof. Where caches save and when they are worth keeping: [CI caches](ci-caching.md).
+- CI caches only its own runs (keyed by lockfiles and `mise.toml`); local machines never write to a shared cache: a local run may gate a merge through its evidence, but the release's clean CI run is the reproducible proof. Where caches save and when they are worth keeping: [CI caches](ci-caching.md).
 - Use `fetch-depth: 1` except in jobs that need history (versioning, releases, base-ref diffs), and sparse checkout for jobs that read a few paths. A job that needs history but only names (`merge-base`, `diff --name-only`, `log`) can add `filter: blob:none`. Never add it where the job reads old file contents (`git show`, content diffs, history secret scans) under `persist-credentials: false`: in a private repo, git fetches those blobs on demand with no credentials and the job fails.
 - No `continue-on-error` on a merge-gating step: a step that fails under it still reports success, so the check has not passed.
 

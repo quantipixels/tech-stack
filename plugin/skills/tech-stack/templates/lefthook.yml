@@ -11,7 +11,7 @@ pre-push:
       # Clear git's hook variables so test fixtures cannot reach this repo.
       run: |
         for git_var in $(env | sed -n 's/^\(GIT_[A-Za-z_]*\)=.*/\1/p'); do unset "$git_var"; done
-        mise run check
+        mise run check   # runs once per tree, writes the evidence record and the PR body block
     private-names:
       # Your own list of private names, one per line, outside every repository; public or unknown-visibility remotes only.
       run: |
