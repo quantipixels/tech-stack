@@ -37,4 +37,3 @@ packages/ui/
 - Server state lives in TanStack Query; Zustand never caches server data.
 - The API client and its Zod schemas are generated from `contracts/` into `packages/<client>`; apps do not hand-write response types.
 - Tests sit next to the code they test (`*.test.ts(x)`).
-- Credentials live in memory unless the threat model accepts storage; never in `localStorage` by default.

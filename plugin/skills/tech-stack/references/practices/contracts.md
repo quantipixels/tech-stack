@@ -16,6 +16,4 @@ verified: 2026-10-06 · https://github.com/oasdiff/oasdiff
 
 ## Rules
 - Clients decode with validators **generated** from the contracts (for TypeScript, Zod).
-- Replay vectors run through each client's real decoder, not only a shared validator.
-- A contract change updates its consumers and replay vectors in the same change.
-- The server validates its own success responses before commit; a client never owns authorization.
+- Tool-free principles for this area live in the agent workflow's principles reference and `/idanwo`.

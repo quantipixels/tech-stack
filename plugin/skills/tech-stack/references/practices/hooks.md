@@ -13,7 +13,7 @@ verified: 2026-10-15 · https://github.com/evilmartians/lefthook · https://vite
 | `post-merge`, `post-checkout` | install dependencies when a lockfile changed |
 ## Local gate
 - Failures in the project's own code surface before push; CI confirms on a clean runner and does the rest. When CI is unavailable (minutes blocked, runners down), run CI's own entry points locally (`mise run check:full`), never a hand-copied job list; keep path selection in one mise task both use, and record in the PR that CI did not run.
-- Place each kind of check, not each tool; do not rebuild CI locally:
+- Place each kind of check, not each tool; do not rebuild CI locally. The agent workflow's check placement decides the kinds; this table is where this stack's tools run:
 
 | Kind of check | Runs in |
 | --- | --- |
@@ -24,12 +24,12 @@ verified: 2026-10-15 · https://github.com/evilmartians/lefthook · https://vite
 | Dependency, licence and vulnerability scanning | CI |
 | Workflow, container and shell config linting | CI |
 | Security static analysis | CI |
-| Slow lanes (end-to-end, drills, database interleaving) | CI; see the agent workflow's CI-depth method referenced in `ci.md` |
+| Slow lanes (end-to-end, drills, database interleaving) | CI; see the agent workflow's check placement |
 | Base-ref gates, OS matrices, checks needing CI-only secrets | CI |
 - In an existing repo, hooks call its existing check entry point; adding tools from this skill is a separate change the owner asks for.
 - `check` proves the code passes; proving the change works on the running product is verification, done by the agent after the build, not in hooks.
 - No fixed time budget: keep `check` fast with parallel tasks and tool caches. Never skip a run because an earlier one passed.
-- Locally, tests that need a service use the [local-services](https://github.com/quantipixels/local-services) skill when it is installed: register the app; never start a second server or run `docker compose down -v`, which deletes every project's data. CI keeps its own service containers.
+- Locally, tests that need a service use Alárinà's bundled `irinse` skill: register the app; never start a second server or run `docker compose down -v`, which deletes every project's data. CI keeps its own service containers.
 - The PR description records the local gate: command, result and time.
 
 ## Rules

@@ -11,27 +11,11 @@ One repository per product, polyglot when needed.
   scripts/               thin wrappers that mise tasks call
   mise.toml              runtimes, analysers, tasks (or the project's own manifest and task runner)
   lefthook.yml           git hooks that call those tasks
-  AGENTS.md  CLAUDE.md   agent instruction files (see below)
+  AGENTS.md  CLAUDE.md   agent instruction files (the agent workflow's agent-file conventions)
 ```
-Agent instruction files follow [the agent instructions default](../practices/agents.md).
-## Docs and records
-The agent workflow owns record locations; existing locations (including `docs/adr/`, `docs/solutions/` and `.nongoals`) win and are kept.
-Its defaults: lessons in `docs/internal/solutions/<category>/`, decisions in `docs/internal/decisions/`, runbooks (deploy, backup, restore, observability) in `docs/internal/operations/`, user guides in `docs/user/`, and non-goals in the README's "Non-goals" section.
+The agent workflow owns record kinds and locations; a project's existing locations win.
 
 ## Rules
 - Package manager workspaces: pnpm for TypeScript, a Cargo workspace for Rust, Gradle multi-project for JVM.
 - Do not create a shared package for code that one app uses; extract when a second app needs it.
 - Generated code is either checked in with a freshness check, or generated in the build and ignored. Not both.
-- If an `ARCHITECTURE.md` module map is useful, give each app an entry; app-specific `AGENTS.md` files hold only rules the root does not.
-
-## Share project agent definitions
-Keep local host state ignored. The root negations override global ignores; share only the agent definitions:
-```gitignore
-!/.claude/
-/.claude/*
-!/.claude/agents/
-!/.codex/
-/.codex/*
-!/.codex/agents/
-```
-`git check-ignore --no-index .claude/agents/<file> .codex/agents/<file>` must match neither path.

@@ -1,33 +1,14 @@
-# Architecture defaults
+# Architecture tools
 
-### Quality lens — required
-setting: judge backend structure by AX and DX, and frontend structure by AX, DX and UX, where a structural change must not make the UI or UX worse
-setting: AX: an agent works without reading everything, through fast deterministic checks whose failures arrive as text, predictable structure with much behaviour behind small interfaces, and lean always-loaded context; DX: a person can understand, navigate, review and contribute, and human review is part of DX
-why: agents do most of the building and relearn the code every session, while people still navigate and review it; frontends also answer to their users
-verified: 2026-10-23 · https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/AX.md · https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/DX.md
+The engineering principles (quality lens, modular monolith, server-owned authorization, contracts first, transaction ownership, lessons) live in the agent workflow's principles reference. This file keeps the tool that enforces each one. Record kinds and locations belong to the agent workflow too; a project's existing locations win.
 
 ### File length limit — default
 setting: turn on the stack linter's file-length rule where it has one, with an error limit and an earlier warning; where it has none, use a small CI check. Measure growth of files already over the limit against the PR's base commit instead of checked-in counts. TypeScript: Oxlint/ESLint `max-lines` (off by default; 300 when enabled with no `max`; one severity per rule, so the warning needs a second rule). Rust: neither Clippy nor rustfmt limits file length; Clippy's `too_many_lines` limits function bodies (100 lines by default, pedantic).
 why: long files cost agents and reviewers context. A checked-in size baseline must be edited by every PR that shrinks a listed file, so PRs that change nearby entries can conflict; comparing with the base commit keeps the same limit without a shared file.
 verified: 2026-11-03 · https://oxc.rs/docs/guide/usage/linter/rules/eslint/max-lines · https://eslint.org/docs/latest/rules/max-lines · https://doc.rust-lang.org/nightly/clippy/lint_configuration.html#too-many-lines-threshold
 
-## Starting shape
-- One modular monolith per product (over microservices) until a measured need splits it.
-- PostgreSQL is the durable authority; durable jobs in the database (Oban for Elixir); realtime only wakes clients, it does not carry truth.
-- The server owns authorization; browser and mobile clients never do.
-- Contracts first: wire contracts in `contracts/`, versioned apart from the app.
-- Domain modules own behavior and state; the web/transport layer only parses, admits and projects.
-- Module boundaries — required: tools enforce direction too; the domain core imports no adapter, framework or UI module: Elixir [Boundary](https://hexdocs.pm/boundary/Boundary.html) (`deps`/`exports` per boundary; `type: :strict` checks external apps), Spring [ArchUnit layer rules](https://www.archunit.org/userguide/html/000_Index.html#_layer_checks) beside [Spring Modulith](https://docs.spring.io/spring-modulith/reference/verification.html), TypeScript [Oxlint `no-restricted-imports`](https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-restricted-imports) scoped to core files (cover aliases and relative paths; dependency-cruiser rejected: reuse the stack's linter), Rust [separate crates](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-path-dependencies) with no outward dependencies in the core manifest; verified: 2026-10-21.
-- Safety-critical and costly features sit behind server-side switches that default off and fail closed.
-
-## Lessons (each from a real defect)
-- Remove a superseded authentication path in the same release, or put it behind a default-off switch with an end date. A migration that marks rows "legacy" also decides how they expire.
-- Every security reset reaches every session kind.
-- Each feature that can cause harm has its own switch and a separate write action; a transport-wide switch is not a feature switch.
-- Take the client IP from a trusted-proxy plug before a rate limit or audit uses it.
-
-## Records every repo keeps
-- Agent instruction files follow [the agent instructions default](agents.md#agent-instructions--default-over-a-claudemd-import-with-claude-only-lines).
-- Non-goals in a README "Non-goals" section or an existing `.nongoals` file.
-- Recommend `ARCHITECTURE.md` when a module map and boundaries need explanation, and `CODEBASE_STANDARD.md` when rules the tools do not yet enforce need a shared reference.
-- Decisions and real lessons follow the project's existing locations or the agent workflow's default record locations, summarized in `../layouts/repository.md`; create records only when there is something to keep.
+## Stack choices
+- PostgreSQL is the durable store; durable jobs live in the database (Oban for Elixir). See [data](data.md).
+- Wire contracts live in `contracts/`, versioned apart from the app. See [contracts](contracts.md).
+- Module boundaries — required: enforce the direction with a tool; the domain core imports no adapter, framework or UI module: Elixir [Boundary](https://hexdocs.pm/boundary/Boundary.html) (`deps`/`exports` per boundary; `type: :strict` checks external apps), Spring [ArchUnit layer rules](https://www.archunit.org/userguide/html/000_Index.html#_layer_checks) beside [Spring Modulith](https://docs.spring.io/spring-modulith/reference/verification.html), TypeScript [Oxlint `no-restricted-imports`](https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-restricted-imports) scoped to core files (cover aliases and relative paths; dependency-cruiser rejected: reuse the stack's linter), Rust [separate crates](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-path-dependencies) with no outward dependencies in the core manifest; verified: 2026-10-21.
+- Take the client IP from a trusted-proxy plug before a rate limit or audit uses it (Phoenix).
